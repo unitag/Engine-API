@@ -4,10 +4,13 @@ API Reference
 ## Introduction
 
 TODO:
+ - Lien vers API.md
  - Notions générales
      + [ ] Lien vers la doc de l'API
      + [ ] Publication
      + [ ] Structure des URL d'accès aux opération publiées
+
+A intégrer :
 
 ```
        +--> Targets an operation <-+
@@ -15,6 +18,30 @@ TODO:
 http://:resolverHost[/:pathPrefix]/:resolverName/:entryPoint
                       |                          |
                       +--> Fixed by the host     +--> Targets an entry point
+```
+
+Exemples à placer aux bons endroits :
+
+```javascript
+{
+    "url": {
+        "host": "opn.to",
+        "name": "test"
+    },
+    "state": "PUBLISHED",
+    "index": {
+        "json": {
+            "body": "Here is the index step"
+        }
+    },
+    "entryPoints": {
+        "foobar": {
+            "json": {
+                "body": "Here is the foobar step"
+            }
+        }
+    }
+}
 ```
 
 ## The `Operation` object
@@ -64,22 +91,25 @@ State | Description
 
 ## The `Resolver` object
 
-A `Resolver` allows to specify how the operation can be reached.
+A `Resolver` allows to specify how the operation can be reached. Each resolver basically defines an URL from which the underlying operation is made accessible. Additionally, it is possible to create a typed resolver, which allows to associate one ore more communication media to the access URL.
 
 ```javascript
-Resolver = RawResolver | QrcodeResolver | ImageResolver
+Resolver = String | RawResolver | QrcodeResolver | ImageResolver
+```
 
-RawResolver = String | {
+### Base fields
+
+A `Resolver` generally looks like the following:
+
+```
+RawResolver = {
     "host": String,
     "name": String,
     "label": String
 }
-
-QrcodeResolver = String | RawResolver + {
-    "type": "qrcode",
-    "design": QrcodeDesign | [QrcodeDesign]
-}
 ```
+
+When a resolver is specified as single `String`, it is interpreted as the `name` of a `RawResolver`.
 
 Field | Description | Markup
 ------|-------------|-------
@@ -87,11 +117,45 @@ Field | Description | Markup
 `name` | Defines the name of this resolver, which is used as the URL path. | No
 `label` | Specifies an arbitrary label for this resolver (optional). | No
 
+### QR code channel
+
+TODO: add general description.
+
+```
+QrcodeResolver = RawResolver + {
+    "type": "qrcode",
+    "design": QrcodeDesign | [QrcodeDesign]
+}
+```
+
+Field | Description | Markup
+------|-------------|-------
+`type` | Defines the type of channel (QR code here). | No
+`design` | Describes the design(s) of the generated QR code(s). TODO: more details needed here. | No
+
+### Image channel
+
+TODO: add general description.
+
+```
+ImageResolver = RawResolver + {
+    "type": "image",
+    "image": Number | [Number]
+}
+```
+
+Field | Description | Markup
+------|-------------|-------
+`type` | Defines the type of channel (image recognition here). | No
+`image` | Describes the uploaded image(s) that should be associated to this resolver. TODO: more details needed here. | No
+
 ### Public hosts
 
-Host | Path prefix | Description
------|-------------|------------
-`e.unitag.io` | `/r` | This is the default host, which is used when no `host` is specified.
+By default, the following domain names can be used in the `host` field of a resolver:
+
+Domain name | Path prefix | Description
+------------|-------------|------------
+`e.unitag.io` | `/r` | This is the default domain name, which is used when no `host` is specified.
 `opn.to` | `/r` | This is a freely usable white-label domain.
 
 ## The `Input` object
