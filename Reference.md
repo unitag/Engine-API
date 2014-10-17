@@ -1,6 +1,17 @@
 API Reference
 =============
 
+- [Introduction](#introduction)
+- [The Operation object](#the-operation-object)
+    - [The publication state](#the-publication-state)
+- [The Resolver object](#the-resolver-object)
+    - [Base fields](#base-fields)
+    - [QR code channel](#qr-code-channel)
+    - [Image channel](#image-channel)
+    - [Public hosts](#public-hosts)
+- [The Input object](#the-input-object)
+- [The Step object](#the-step-object)
+
 ## Introduction
 
 TODO:
@@ -101,7 +112,7 @@ Resolver = String | RawResolver | QrcodeResolver | ImageResolver
 
 A `Resolver` generally looks like the following:
 
-```
+```javascript
 RawResolver = {
     "host": String,
     "name": String,
@@ -121,7 +132,7 @@ Field | Description | Markup
 
 TODO: add general description.
 
-```
+```javascript
 QrcodeResolver = RawResolver + {
     "type": "qrcode",
     "design": QrcodeDesign | [QrcodeDesign]
@@ -137,7 +148,7 @@ Field | Description | Markup
 
 TODO: add general description.
 
-```
+```javascript
 ImageResolver = RawResolver + {
     "type": "image",
     "image": Number | [Number]
