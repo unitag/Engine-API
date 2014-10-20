@@ -138,9 +138,48 @@ a.list-group-item.heading:hover {
     max-width: 212px;
   }
 }
-</style></head><body><a href="#top" class="text-muted back-to-top"><i class="fa fa-toggle-up"></i>&nbsp;Back to top</a><div class="container"><div class="row"><div class="col-md-3"><nav id="nav" class="hidden-sm hidden-xs affix nav"><div class="list-group"><a data-toggle="" data-target="#api-routes-menu" href="#api-routes" class="list-group-item heading collapsed">API routes</a><div id="api-routes-menu"><a href="#api-routes-operation" style="border-top-left-radius: 0; border-top-right-radius: 0" class="list-group-item">Operation</a><a href="#api-routes-operation-get" style="border-top-left-radius: 0; border-top-right-radius: 0" class="list-group-item"><span class="badge alert-info"><i class="fa fa-arrow-down"></i></span><span class="indent">Retrieve an operation</span></a><a href="#api-routes-operation-put" style="border-top-left-radius: 0; border-top-right-radius: 0" class="list-group-item"><span class="badge alert-warning"><i class="fa fa-pencil"></i></span><span class="indent">Update an operation</span></a><a href="#api-routes-operation-delete" style="border-top-left-radius: 0; border-top-right-radius: 0" class="list-group-item"><span class="badge alert-danger"><i class="fa fa-times"></i></span><span class="indent">Delete an operation</span></a><a href="#api-routes-operations-collection" style="border-top-left-radius: 0; border-top-right-radius: 0" class="list-group-item">Operations collection</a><a href="#api-routes-operations-collection-get" style="border-top-left-radius: 0; border-top-right-radius: 0" class="list-group-item"><span class="badge alert-info"><i class="fa fa-arrow-down"></i></span><span class="indent">Retrieve all operations</span></a><a href="#api-routes-operations-collection-post" style="border-top-left-radius: 0; border-top-right-radius: 0" class="list-group-item"><span class="badge alert-success"><i class="fa fa-plus"></i></span><span class="indent">Create a new operation</span></a></div></div></nav></div><div class="col-md-8"><div><header><div class="page-header"><h1 id="top">Operations API</h1></div></header><div class="description"><p>TODO: add content here</p>
-</div></div><div><div class="panel panel-default"><div class="panel-heading"><h3 id="api-routes">API routes&nbsp;<a href="#api-routes"><i class="fa fa-link"></i></a></h3></div><div class="panel-body"><h4 id="api-routes-operation">Operation&nbsp;<a href="#api-routes-operation"><i class="fa fa-link"></i></a></h4><p>This resource represents one particular operation identified by its <strong>id</strong>.</p>
-<section id="api-routes-operation-get" class="panel panel-info"><div class="panel-heading"><div style="float:right"><span style="text-transform: lowercase">Retrieve an operation</span></div><div style="float:left"><a href="#api-routes-operation-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/operations/{id}</code></div></div><div class="panel-body"><p>Retrieve an operation by its <strong>id</strong>.</p>
+</style></head><body><a href="#top" class="text-muted back-to-top"><i class="fa fa-toggle-up"></i>&nbsp;Back to top</a><div class="container"><div class="row"><div class="col-md-3"><nav id="nav" class="hidden-sm hidden-xs affix nav"><div class="list-group"><a href="#" class="list-group-item heading">Home</a></div><div class="list-group"><a data-toggle="" data-target="#page:api-routes-menu" href="#page:api-routes" class="list-group-item heading collapsed">API routes</a><div id="page:api-routes-menu"><a href="#page:api-routes,header:api-routes-operation" style="border-top-left-radius: 0; border-top-right-radius: 0" class="list-group-item">Operation</a><a href="#page:api-routes,header:api-routes-operation-get" style="border-top-left-radius: 0; border-top-right-radius: 0" class="list-group-item"><span class="badge alert-info"><i class="fa fa-arrow-down"></i></span><span class="indent">Retrieve an operation</span></a><a href="#page:api-routes,header:api-routes-operation-put" style="border-top-left-radius: 0; border-top-right-radius: 0" class="list-group-item"><span class="badge alert-warning"><i class="fa fa-pencil"></i></span><span class="indent">Update an operation</span></a><a href="#page:api-routes,header:api-routes-operation-delete" style="border-top-left-radius: 0; border-top-right-radius: 0" class="list-group-item"><span class="badge alert-danger"><i class="fa fa-times"></i></span><span class="indent">Delete an operation</span></a><a href="#page:api-routes,header:api-routes-operations-collection" style="border-top-left-radius: 0; border-top-right-radius: 0" class="list-group-item">Operations collection</a><a href="#page:api-routes,header:api-routes-operations-collection-get" style="border-top-left-radius: 0; border-top-right-radius: 0" class="list-group-item"><span class="badge alert-info"><i class="fa fa-arrow-down"></i></span><span class="indent">Retrieve all operations</span></a><a href="#page:api-routes,header:api-routes-operations-collection-post" style="border-top-left-radius: 0; border-top-right-radius: 0" class="list-group-item"><span class="badge alert-success"><i class="fa fa-plus"></i></span><span class="indent">Create a new operation</span></a></div></div></nav></div><div class="col-md-8"><div data-bind="visible: page() == 'home'"><header><div class="page-header"><h1 id="top">Operations API</h1></div></header><div class="description"><p>This document describes the HTTP interface for accessing the Unitag operations API.</p>
+<p>If you are displaying this page from <a href="https://github.com/unitag/Engine-API/blob/master/API.md">GitHub</a>, you are actually reading an <a href="http://apiblueprint.org/">API Blueprint</a> specification. Although this format is readable as is, you may prefer switching to the <a href="http://unitag.github.io/Engine-API/api">enhanced version</a>.</p>
+<h2 id="base-url">Base URL</h2>
+<p>The following API routes are relative to this base URL:</p>
+<pre><code class="lang-no-highlight">https://tmp-api.unitag.io
+</code></pre>
+<p>This host name is voluntarily stamped as <em>temporary</em>, and will probably disappear after the beta stage (replaced by a nicer host name).</p>
+<h2 id="authentication">Authentication</h2>
+<p>Every request to the operations API must be authenticated using the following header:</p>
+<pre><code class="lang-http"><span class="hljs-attribute">Authorization</span>: <span class="hljs-string">Unitag token="&lt;your token&gt;"</span>
+</code></pre>
+<p>Beta tokens can be generated by Unitag <a href="mailto:contact@unitag.io">upon request</a>.</p>
+<h2 id="api-reference">API reference</h2>
+<p>The following HTTP methods allow to manipulate operations as JSON documents. The full format of an operation object is described in <a href="https://github.com/unitag/Engine-API/blob/master/Reference.md">a separate document</a>.</p>
+<h2 id="error-handling">Error handling</h2>
+<p>When the operation API encounters an error, it produces an HTTP response with an appropriate status code (<code>4xx</code> or <code>5xx</code>) and JSON body. This JSON document is always an object with the following keys:</p>
+<ul>
+<li><code>code</code>: a string identifying the error</li>
+<li><code>message</code>: a more verbose error description</li>
+<li><code>details</code>: if present, additional data which could help to figure out the cause of the error</li>
+</ul>
+<p>For example, an invalid resolver name will produce this kind of error:</p>
+<pre><code class="lang-json">{
+    "<span class="hljs-attribute">code</span>": <span class="hljs-value"><span class="hljs-string">"INVALID_RESOLVER_NAME"</span></span>,
+    "<span class="hljs-attribute">message</span>": <span class="hljs-value"><span class="hljs-string">"The resolver name is invalid. It must be a string containing alphanumeric characters, underscores, dashes, dots and/or tildes."</span></span>,
+    "<span class="hljs-attribute">details</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">path</span>": <span class="hljs-value"><span class="hljs-string">"url[0].name"</span></span>,
+        "<span class="hljs-attribute">data</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">expected</span>": <span class="hljs-value"><span class="hljs-string">"UrlComponent"</span></span>,
+            "<span class="hljs-attribute">markupAllowed</span>": <span class="hljs-value"><span class="hljs-literal">false</span>
+        </span>}
+    </span>}
+</span>}
+</code></pre>
+<p>Like for most errors in the input document, the <code>details</code> object contains the following fields:</p>
+<ul>
+<li><code>path</code>: indicates the JSON path at which the error occurred</li>
+<li><code>data</code>: when present, provides some precisions about the circumstances of the error</li>
+</ul>
+<p>What’s more, in order to avoid confusions, the API only returns keys that were actually used. Thus, even if unsupported keys are not rejected, this behavior can be used to determine whether a given key as been understood or ignored by the API.</p>
+</div><a href="#page:api-routes" class="btn btn-default pull-right">Next&nbsp;<i class="fa fa-arrow-circle-right"></i></a><div class="clearfix"></div><hr></div><div data-bind="visible: page() == 'api-routes', style: {marginTop: page() == 'api-routes' ? '38px' : ''}"><div class="panel panel-default"><div class="panel-heading"><h3 id="api-routes">API routes&nbsp;<a href="#page:api-routes"><i class="fa fa-link"></i></a></h3></div><div class="panel-body"><h4 id="api-routes-operation">Operation&nbsp;<a href="#page:api-routes,header:api-routes-operation"><i class="fa fa-link"></i></a></h4><p>This resource represents one particular operation identified by its <strong>id</strong>.</p>
+<section id="api-routes-operation-get" class="panel panel-info"><div class="panel-heading"><div style="float:right"><span style="text-transform: lowercase">Retrieve an operation</span></div><div style="float:left"><a href="#page:api-routes,header:api-routes-operation-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/operations/{id}</code></div></div><div class="panel-body"><p>Retrieve an operation by its <strong>id</strong>.</p>
 </div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>ID of the operation.</p>
 </dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#770d9f8e3ed73451728946a81b95e756" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="770d9f8e3ed73451728946a81b95e756" class="list-group-item panel-collapse collapse"><div class="description"></div><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span><br></code></pre><h5>Body</h5><pre><code>{
     <span class="hljs-string">"id"</span>: <span class="hljs-string">"0123456789abcdef01234567"</span>,
@@ -149,7 +188,7 @@ a.list-group-item.heading:hover {
     <span class="hljs-string">"state"</span>: <span class="hljs-string">"PUBLISHED"</span>,
     <span class="hljs-keyword">...</span>
 }
-</code></pre></li></ul></section><section id="api-routes-operation-put" class="panel panel-warning"><div class="panel-heading"><div style="float:right"><span style="text-transform: lowercase">Update an operation</span></div><div style="float:left"><a href="#api-routes-operation-put" class="btn btn-xs btn-warning">PUT</a></div><div style="overflow:hidden"><code>/operations/{id}</code></div></div><div class="panel-body"><p>Update an operation.</p>
+</code></pre></li></ul></section><section id="api-routes-operation-put" class="panel panel-warning"><div class="panel-heading"><div style="float:right"><span style="text-transform: lowercase">Update an operation</span></div><div style="float:left"><a href="#page:api-routes,header:api-routes-operation-put" class="btn btn-xs btn-warning">PUT</a></div><div style="overflow:hidden"><code>/operations/{id}</code></div></div><div class="panel-body"><p>Update an operation.</p>
 </div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>ID of the operation.</p>
 </dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Request</strong><a data-toggle="collapse" data-target="#19dc4a27fb9a3db0b3c75806aef14eb3" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="19dc4a27fb9a3db0b3c75806aef14eb3" class="list-group-item panel-collapse collapse"><div class="description"></div><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span><br></code></pre><h5>Body</h5><pre><code>{
     <span class="hljs-string">"url"</span>: [],
@@ -163,10 +202,10 @@ a.list-group-item.heading:hover {
     <span class="hljs-string">"state"</span>: <span class="hljs-string">"PUBLISHED"</span>,
     <span class="hljs-keyword">...</span>
 }
-</code></pre></li></ul></section><section id="api-routes-operation-delete" class="panel panel-danger"><div class="panel-heading"><div style="float:right"><span style="text-transform: lowercase">Delete an operation</span></div><div style="float:left"><a href="#api-routes-operation-delete" class="btn btn-xs btn-danger">DELETE</a></div><div style="overflow:hidden"><code>/operations/{id}</code></div></div><div class="panel-body"><p>Delete an operation. <strong>Warning:</strong> This action <strong>permanently</strong> removes the operation from the database.</p>
+</code></pre></li></ul></section><section id="api-routes-operation-delete" class="panel panel-danger"><div class="panel-heading"><div style="float:right"><span style="text-transform: lowercase">Delete an operation</span></div><div style="float:left"><a href="#page:api-routes,header:api-routes-operation-delete" class="btn btn-xs btn-danger">DELETE</a></div><div style="overflow:hidden"><code>/operations/{id}</code></div></div><div class="panel-body"><p>Delete an operation. <strong>Warning:</strong> This action <strong>permanently</strong> removes the operation from the database.</p>
 </div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>ID of the operation.</p>
-</dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>204</code></strong></li></ul></section><h4 id="api-routes-operations-collection">Operations collection&nbsp;<a href="#api-routes-operations-collection"><i class="fa fa-link"></i></a></h4><p>This resource represents the collection of created operations.</p>
-<section id="api-routes-operations-collection-get" class="panel panel-info"><div class="panel-heading"><div style="float:right"><span style="text-transform: lowercase">Retrieve all operations</span></div><div style="float:left"><a href="#api-routes-operations-collection-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/operations</code></div></div><div class="panel-body"><p>Retrieve all the created operations.</p>
+</dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>204</code></strong></li></ul></section><h4 id="api-routes-operations-collection">Operations collection&nbsp;<a href="#page:api-routes,header:api-routes-operations-collection"><i class="fa fa-link"></i></a></h4><p>This resource represents the collection of created operations.</p>
+<section id="api-routes-operations-collection-get" class="panel panel-info"><div class="panel-heading"><div style="float:right"><span style="text-transform: lowercase">Retrieve all operations</span></div><div style="float:left"><a href="#page:api-routes,header:api-routes-operations-collection-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/operations</code></div></div><div class="panel-body"><p>Retrieve all the created operations.</p>
 </div><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#161b4c03652e1351b1dbd8f4d80c8857" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="161b4c03652e1351b1dbd8f4d80c8857" class="list-group-item panel-collapse collapse"><div class="description"></div><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span><br></code></pre><h5>Body</h5><pre><code>[
     {
         <span class="hljs-string">"id"</span>: <span class="hljs-string">"0123456789abcdef0123456789"</span>,
@@ -177,7 +216,7 @@ a.list-group-item.heading:hover {
     },
     <span class="hljs-keyword">...</span>
 ]
-</code></pre></li></ul></section><section id="api-routes-operations-collection-post" class="panel panel-success"><div class="panel-heading"><div style="float:right"><span style="text-transform: lowercase">Create a new operation</span></div><div style="float:left"><a href="#api-routes-operations-collection-post" class="btn btn-xs btn-success">POST</a></div><div style="overflow:hidden"><code>/operations</code></div></div><div class="panel-body"><p>Create a new operation.</p>
+</code></pre></li></ul></section><section id="api-routes-operations-collection-post" class="panel panel-success"><div class="panel-heading"><div style="float:right"><span style="text-transform: lowercase">Create a new operation</span></div><div style="float:left"><a href="#page:api-routes,header:api-routes-operations-collection-post" class="btn btn-xs btn-success">POST</a></div><div style="overflow:hidden"><code>/operations</code></div></div><div class="panel-body"><p>Create a new operation.</p>
 </div><ul class="list-group"><li class="list-group-item"><strong>Request</strong><a data-toggle="collapse" data-target="#a3b9c56cc8e84538503124d4c44759f1" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="a3b9c56cc8e84538503124d4c44759f1" class="list-group-item panel-collapse collapse"><div class="description"></div><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span><br></code></pre><h5>Body</h5><pre><code>{
     <span class="hljs-string">"url"</span>: [],
     <span class="hljs-string">"state"</span>: <span class="hljs-string">"PUBLISHED"</span>,
@@ -190,7 +229,7 @@ a.list-group-item.heading:hover {
     <span class="hljs-string">"state"</span>: <span class="hljs-string">"PUBLISHED"</span>,
     <span class="hljs-keyword">...</span>
 }
-</code></pre></li></ul></section></div></div></div></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 20 Oct 2014</p><div id="localFile" style="display: none; position: absolute; top: 0; left: 0; width: 100%; color: white; background: red; font-size: 150%; text-align: center; padding: 1em;">This page may not display correctly when opened as a local file. Instead, view it from a web server.
+</code></pre></li></ul></section></div></div><a href="#" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Previous</a><div class="clearfix"></div><hr></div></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 20 Oct 2014</p><div id="localFile" style="display: none; position: absolute; top: 0; left: 0; width: 100%; color: white; background: red; font-size: 150%; text-align: center; padding: 1em;">This page may not display correctly when opened as a local file. Instead, view it from a web server.
 
 </div></body><script src="//code.jquery.com/jquery-1.11.0.min.js"></script><script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script><script>(function() {
   if (location.protocol === 'file:') {
@@ -200,6 +239,42 @@ a.list-group-item.heading:hover {
 }).call(this);
 </script><script>(function() {
   $('table').addClass('table');
+
+}).call(this);
+</script><script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.0.0/knockout-min.js"></script><script>(function() {
+  var App;
+
+  App = (function() {
+    function App() {
+      this.page = ko.observable('home');
+    }
+
+    return App;
+
+  })();
+
+  window.app = new App();
+
+  window.onhashchange = function() {
+    var parts, v, vars, _i, _len, _ref;
+    vars = {};
+    _ref = location.hash.substr(1).split(',');
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      v = _ref[_i];
+      parts = v.split(':');
+      vars[parts[0]] = parts[1];
+    }
+    window.app.page(vars.page || 'home');
+    if (vars.header) {
+      return $("#" + vars.header)[0].scrollIntoView(true);
+    } else {
+      return window.scrollTo(0, 0);
+    }
+  };
+
+  ko.applyBindings(window.app);
+
+  window.onhashchange();
 
 }).call(this);
 </script></html>
