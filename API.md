@@ -32,7 +32,7 @@ The following HTTP methods allow to manipulate operations as JSON documents. The
 
 ## Error handling
 
-When the operation API encounters an error, it produces an HTTP response with an appropriate status code (`4xx` or `5xx`) and JSON body. This JSON document is always an object with the following keys:
+When the operation API encounters an error, it produces an HTTP response with an appropriate status code (**`4xx`** or **`5xx`**) and a JSON body. This JSON document is always an object with the following keys:
 + `code`: a string identifying the error
 + `message`: a more verbose error description
 + `details`: if present, additional data which could help to figure out the cause of the error
