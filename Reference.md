@@ -33,7 +33,7 @@ http://:resolverHost[/:pathPrefix]/:resolverName/:entryPoint
 
 Exemples à placer aux bons endroits :
 
-```javascript
+```json
 {
     "url": {
         "host": "opn.to",
