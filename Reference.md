@@ -1,34 +1,40 @@
 API Reference
 =============
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
 - [Introduction](#introduction)
-- [The Operation object](#the-operation-object)
-    - [The publication state](#the-publication-state)
-- [The Resolver object](#the-resolver-object)
-    - [Base fields of resolvers](#base-fields-of-resolvers)
-    - [QR code channel](#qr-code-channel)
-    - [Image channel](#image-channel)
-    - [Public hosts](#public-hosts)
-- [The Input object](#the-input-object)
-- [The Step object](#the-step-object)
-    - [Base fields of steps](#base-fields-of-steps)
-    - [The redirection step](#the-redirection-step)
-    - [The vCard step](#the-vcard-step)
-    - [The U.me step](#the-ume-step)
-    - [The switch/cases/default step](#the-switchcasesdefault-step)
-    - [The if/then/else step](#the-ifthenelse-step)
-    - [The goto step](#the-goto-step)
-    - [The try/catch/then step](#the-trycatchthen-step)
-- [The Test object](#the-test-object)
-- [The Actions object](#the-actions-object)
-    - [Base fields of actions](#base-fields-of-actions)
-    - [The email action](#the-email-action)
-    - [The SMS action](#the-sms-action)
-    - [The cookie action](#the-cookie-action)
-    - [The upload action](#the-upload-action)
+- [The `Operation` object](#the-operation-object)
+  - [The publication state](#the-publication-state)
+- [The `Resolver` object](#the-resolver-object)
+  - [Base fields of resolvers](#base-fields-of-resolvers)
+  - [QR code channel](#qr-code-channel)
+  - [Image channel](#image-channel)
+  - [Public hosts](#public-hosts)
+- [The `Input` object](#the-input-object)
+- [The `Step` object](#the-step-object)
+  - [Base fields of steps](#base-fields-of-steps)
+  - [The redirection step](#the-redirection-step)
+  - [The vCard step](#the-vcard-step)
+  - [The U.me step](#the-ume-step)
+  - [The `switch`/`cases`/`default` step](#the-switchcasesdefault-step)
+  - [The `if`/`then`/`else` step](#the-ifthenelse-step)
+  - [The `goto` step](#the-goto-step)
+  - [The `try`/`catch`/`then` step](#the-trycatchthen-step)
+- [The `Test` object](#the-test-object)
+- [The `Actions` object](#the-actions-object)
+  - [Base fields of actions](#base-fields-of-actions)
+  - [The email action](#the-email-action)
+  - [The SMS action](#the-sms-action)
+  - [The cookie action](#the-cookie-action)
+  - [The upload action](#the-upload-action)
 - [Miscellaneous](#miscellaneous)
-    - [Predicate testing](#predicate-testing)
-    - [The vCard object](#the-vcard-object)
+  - [Predicate testing](#predicate-testing)
+  - [The vCard object](#the-vcard-object)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Introduction
 
@@ -38,6 +44,7 @@ TODO:
      + [ ] Lien vers la doc de l'API
      + [ ] Publication
      + [ ] Structure des URL d'accès aux opération publiées
+     + [ ] Convention d'écriture des "schémas"
 
 A intégrer :
 
