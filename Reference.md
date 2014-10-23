@@ -108,7 +108,7 @@ A `Resolver` allows to specify how the operation can be reached. Each resolver b
 Resolver = String | RawResolver | QrcodeResolver | ImageResolver
 ```
 
-### Base fields
+### Base fields of resolvers
 
 A `Resolver` generally looks like the following:
 
@@ -204,13 +204,17 @@ Step = RedirectStep | VcardStep | JsonStep | UmeStep |
        SwitchStep | IfStep | GotoStep | TryStep
 ```
 
+### Base fields of steps
+
 ```javascript
 BaseStep = {
     "label": String,
     "input": Input | [Input],
-    "trigger": Action | [Action]
+    "trigger": Actions | [Actions]
 }
 ```
+
+### The redirection step
 
 ```javascript
 RedirectStep = String | BaseStep + {
@@ -218,17 +222,23 @@ RedirectStep = String | BaseStep + {
 }
 ```
 
+### The vCard step
+
 ```javascript
 VcardStep = BaseStep + {
     "vcard": Vcard
 }
 ```
 
+### The U.me step
+
 ```javascript
 UmeStep = BaseStep + {
     "ume": Ume
 }
 ```
+
+### The `switch`/`cases`/`default` step
 
 ```javascript
 SwitchStep = BaseStep + {
@@ -238,13 +248,17 @@ SwitchStep = BaseStep + {
 }
 ```
 
+### The `if`/`then`/`else` step
+
 ```javascript
 IfStep = BaseStep + {
-    "if": Boolean
+    "if": Boolean,
     "then": Step,
     "else": Step
 }
 ```
+
+### The `goto` step
 
 ```javascript
 GotoStep = BaseStep + {
@@ -252,10 +266,137 @@ GotoStep = BaseStep + {
 }
 ```
 
+### The `try`/`catch`/`then` step
+
 ```javascript
 TryStep = BaseStep + {
     "try": Test | [Test],
     "catch": Step,
     "then": Step
 }
+```
+
+## The `Test` object
+
+```javascript
+Test = {
+    "enabled": Boolean,
+    "label": String,
+    "input": Input | [Input],
+    "trigger": Actions | [Actions],
+    "value": Boolean | Number | String | Object,
+    "assert": Boolean | Number | String | Assertion | [Assertion],
+    "catch": Step
+}
+```
+
+## The `Actions` object
+
+```javascript
+Actions = {
+    "enabled": Boolean,
+    "logged": Boolean,
+    "waited": Boolean,
+
+    "email": EmailAction | [EmailAction],
+    "sms": SmsAction | [SmsAction],
+    "cookie": CookieAction | [CookieAction],
+    "upload": UploadAction | [UploadAction]
+}
+```
+
+### Base fields of actions
+
+```javascript
+BaseAction = {
+    "output": String,
+    "logged": Boolean,
+    "waited": Boolean
+}
+```
+
+### The email action
+
+```javascript
+EmailAction = BaseAction + {
+    "from": String | [String] | Object | [Object],
+    "to": String | [String] | Object | [Object],
+    "subject": Boolean | Number | String | Object,
+    "body": Boolean | Number | String | Object,
+    "attachment": Attachment | [Attachment]
+}
+```
+
+```javascript
+Attachment = {
+    "text": TextAttachement | [TextAttachement],
+    "vcard": Vcard | [Vcard],
+    "upload": File | [File]
+}
+```
+
+```javascript
+TextAttachement = String | {
+    "filename": String,
+    "content": String
+}
+```
+
+### The SMS action
+
+```javascript
+SmsAction = Action + {
+    "destination": String,
+    "text": Boolean | Number | String | Object
+}
+```
+
+### The cookie action
+
+```javascript
+CookieAction = Action + {
+    "key": Boolean | Number | String,
+    "value": Boolean | Number | String | Object,
+    "age": Number
+}
+```
+
+### The upload action
+
+```javascript
+UploadAction = Action + {
+    "file": String | File,
+    "alterations": [Alteration]
+}
+
+File = {
+    "path": String,
+    "filename": String,
+    "contentType": String
+}
+
+Alteration = /TODO/
+```
+
+## Miscellaneous
+
+### Predicate testing
+
+```javascript
+Predicate = {
+    "eq": Boolean | Number | String | Object,
+    "ne": Boolean | Number | String | Object,
+    "lt": Boolean | Number | String | Object,
+    "gt": Boolean | Number | String | Object,
+    "lte": Boolean | Number | String | Object,
+    "gte": Boolean | Number | String | Object
+
+    // Other tests
+}
+```
+
+### The vCard object
+
+```javascript
+Vcard = /TODO/
 ```
