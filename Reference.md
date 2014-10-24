@@ -52,7 +52,7 @@ TODO:
      + [ ] Publication
      + [ ] Structure des URL d'accès aux opération publiées
      + [ ] Convention d'écriture des "schémas"
-     + [ ] Définir les méta-types (Date, Integer, Object, ...)
+     + [ ] Définir les méta-types : Date, Integer (?), Object (!= Array + clés interdites), ...
      + [ ] Introduire Gaston
 
 A intégrer :
@@ -221,7 +221,7 @@ So, an input object is basically a map of connectors, where the key defines the 
 
 The connectors defined in an input object are evaluated in parallel. Thus, a connector cannot use a value produced by one of its neighbors.
 
-However, there are two ways for ordering the evaluation order of connectors:
+However, there are two ways for controlling the evaluation order of connectors:
   - An input object can define a special `$then` key. It allows to define another input object (or an array) which is processed only once all the connectors of the current object have been evaluated. The resulting values of these connectors can be injected in the `$then` field. Note that an input object is considered as completed when all its connectors are evaluated _and_ its eventual `$then` field is completed.
   - When an array of input objects if specified, its items are evaluated sequentially. This means that the connectors defined in a given item are evaluated only once all the previous items are completed. In other words, the values produced by the connectors of a given item can be injected in all subsequent items. Note that an array of input object is considered as completed when all its items are completed.
 
@@ -229,23 +229,37 @@ Both these techniques can cohabit in order to produce complex and/or deep depend
 
 ### The data connector
 
+The data connector is the simplest connector: it allows to inject some arbitrary data into the evaluation context. Such a connector looks like the following:
+
 ```javascript
-DataConnector = Boolean | Number | String | Object | {
-    "$data": Boolean | Number | String | Object
+DataConnector = Boolean | Number | String | Object | Array | {
+    "$data": Boolean | Number | String | Object | Array
 }
 ```
 
+In fact, any raw value is automatically interpreted as a data connector. A non-data connector is defined by an object containing a single `$`-prefixed key. This key defines the connector type, while the associated value defines the connector definition. Although useless in practice, a data connector can also be expressed this way (using a `$data` key).
+
 ### The CSV connector
+
+The CSV connector allows to retrieve a remote CSV file and to inject its parsed content into the evaluation context. Such a connector looks like the following:
 
 ```javascript
 CsvConnector = {
     "$csv": String | {
-        url: String | Object
+        url: String | Url
     }
 }
 ```
 
+When specified as a single `String`, the connector definition is directly interpreted as the `url` field.
+
+Field | Description | Markup
+------|-------------|-------
+`url` | Defines the URL of the remote CSV file. It can be any valid URL string, or a parsed URL object. TODO: more details here. | Allowed, only the string format is accepted.
+
 ### The file connector
+
+The file connector allows to load a file and to inject its content into the evaluation context. Such a connector looks like the following:
 
 ```javascript
 FileConnector = {
@@ -262,6 +276,14 @@ UploadedFile = {
     encoding: String
 }
 ```
+
+When specified as a single `String`, the connector definition is directly interpreted as the `url` field of a `RemoteFile`.
+
+Field | Description | Markup
+------|-------------|-------
+`url` | Defines the URL of a remote file. It can be any valid URL string, or a parsed URL object. TODO: more details here. | Yes, but only the string format is accepted.
+`filename` | Defines the name of an uploaded file, which can be obtained from the `<((params.file))>` object. | Yes.
+`encoding` | Optionally specifies the encoding of the loaded file: `utf8`, `base64`, `hex` or `ascii`. Default is `base64`. | Yes.
 
 ### The views connector
 
