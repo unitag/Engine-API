@@ -14,6 +14,13 @@ API Reference
   - [Image channel](#image-channel)
   - [Public hosts](#public-hosts)
 - [The `Input` object](#the-input-object)
+  - [The data connector](#the-data-connector)
+  - [The CSV connector](#the-csv-connector)
+  - [The file connector](#the-file-connector)
+  - [The views connector](#the-views-connector)
+  - [The last view connector](#the-last-view-connector)
+  - [The params connector](#the-params-connector)
+  - [The action log result connector](#the-action-log-result-connector)
 - [The `Step` object](#the-step-object)
   - [Base fields of steps](#base-fields-of-steps)
   - [The redirection step](#the-redirection-step)
@@ -45,6 +52,8 @@ TODO:
      + [ ] Publication
      + [ ] Structure des URL d'accès aux opération publiées
      + [ ] Convention d'écriture des "schémas"
+     + [ ] Définir les méta-types (Date, Integer, Object, ...)
+     + [ ] Introduire Gaston
 
 A intégrer :
 
@@ -83,12 +92,12 @@ Exemples à placer aux bons endroits :
 ## The `Operation` object
 
 An `Operation` is a standalone document describing an HTTP application. It is expressed as a JSON object, which allows to specify:
- - how the application can be reached
- - which routes are exposed
- - which input data are needed
- - how input data are processed
- - which output data are produced
- - which external actions are triggered
+  - how the application can be reached
+  - which routes are exposed
+  - which input data are needed
+  - how input data are processed
+  - which output data are produced
+  - which external actions are triggered
 
 The root object looks like the following:
 
@@ -155,7 +164,7 @@ Field | Description | Markup
 
 ### QR code channel
 
-TODO: add general description.
+A resolver can be used as a QR code channel. This means that one or more QR code(s) can be associated to the resolver in order to help the diffusion of the underlying operation. A QR code resolver looks like the following:
 
 ```javascript
 QrcodeResolver = RawResolver + {
@@ -171,7 +180,7 @@ Field | Description | Markup
 
 ### Image channel
 
-TODO: add general description.
+A resolver can be used as an image recognition channel. This means that one or more interactive image(s) can be associated to the resolver in order to make them recognizable by [Unitag QR Code Scanner](https://www.unitag.io/qrcode/app). When such an image is scanned by this application, the user is redirected to the underlying operation. An image resolver looks like the following:
 
 ```javascript
 ImageResolver = RawResolver + {
@@ -196,15 +205,29 @@ Domain name | Path prefix | Description
 
 ## The `Input` object
 
-TODO
+An input object allows to define a set of data to be injected in the evaluation context. It definition looks like the following:
 
 ```javascript
-Input = {Connector | Input} | [{Connector | Input}]
+Input = {Connector} + {
+    "$then": Input | [Input]
+}
+
+Connector = DataConnector | CsvConnector | FileConnector |
+            ViewsConnector | LastViewConnector | ParamsConnector |
+            ActionLogResultConnector
 ```
 
-```javascript
-Connector = DataConnector | CsvConnector | ...
-```
+So, an input object is basically a map of connectors, where the key defines the name of the resulting value (accessible through `<((io.name))>` after evaluation), and the value defines how to produce the resulting value.
+
+The connectors defined in an input object are evaluated in parallel. Thus, a connector cannot use a value produced by one of its neighbors.
+
+However, there are two ways for ordering the evaluation order of connectors:
+  - An input object can define a special `$then` key. It allows to define another input object (or an array) which is processed only once all the connectors of the current object have been evaluated. The resulting values of these connectors can be injected in the `$then` field. Note that an input object is considered as completed when all its connectors are evaluated _and_ its eventual `$then` field is completed.
+  - When an array of input objects if specified, its items are evaluated sequentially. This means that the connectors defined in a given item are evaluated only once all the previous items are completed. In other words, the values produced by the connectors of a given item can be injected in all subsequent items. Note that an array of input object is considered as completed when all its items are completed.
+
+Both these techniques can cohabit in order to produce complex and/or deep dependency graphs. However, most use cases will mainly involve parallel definitions, which are very easy to express, and which provide the best performances.
+
+### The data connector
 
 ```javascript
 DataConnector = Boolean | Number | String | Object | {
@@ -212,10 +235,89 @@ DataConnector = Boolean | Number | String | Object | {
 }
 ```
 
+### The CSV connector
+
 ```javascript
 CsvConnector = {
     "$csv": String | {
-        url: String
+        url: String | Object
+    }
+}
+```
+
+### The file connector
+
+```javascript
+FileConnector = {
+    "$file": String | RemoteFile | UploadedFile
+}
+
+RemoteFile = {
+    url: String | Object,
+    encoding: String
+}
+
+UploadedFile = {
+    filename: String,
+    encoding: String
+}
+```
+
+### The views connector
+
+```javascript
+ViewsConnector = {
+    "$views": String | {
+        step: String,
+        from: Date,
+        to: Date,
+        duration: Number,
+        unit: String
+    }
+}
+```
+
+### The last view connector
+
+```javascript
+LastViewConnector = {
+    "$lastView": String | {
+        step: String,
+        from: Date,
+        to: Date
+    }
+}
+```
+
+### The params connector
+
+```javascript
+ParamsConnector = {
+    "$params": String | {
+        step: String,
+        from: Date,
+        to: Date,
+        output: String | [String] | {String},
+        sort: Number,
+        skip: Number,
+        limit: Number
+    }
+}
+```
+
+### The action log result connector
+
+```javascript
+ActionLogResultConnector = {
+    "$actionLogResult": String | {
+        actionName: String,
+        actionType: String,
+        step: String,
+        from: Date,
+        to: Date,
+        sort: Number,
+        skip: Number,
+        limit: Number
     }
 }
 ```
