@@ -21,6 +21,9 @@ API Reference
   - [The last view connector](#the-last-view-connector)
   - [The params connector](#the-params-connector)
   - [The action log result connector](#the-action-log-result-connector)
+  - [Evaluation order](#evaluation-order)
+  - [Example of dependency graph](#example-of-dependency-graph)
+  - [Complete example](#complete-example)
 - [The `Step` object](#the-step-object)
   - [Base fields of steps](#base-fields-of-steps)
   - [The redirection step](#the-redirection-step)
@@ -219,14 +222,6 @@ Connector = DataConnector | CsvConnector | FileConnector |
 
 So, an input object is basically a map of connectors, where the key defines the name of the resulting value (accessible through `<((io.name))>` after evaluation), and the value defines how to produce the resulting value.
 
-The connectors defined in an input object are evaluated in parallel. Thus, a connector cannot use a value produced by one of its neighbors.
-
-However, there are two ways for controlling the evaluation order of connectors:
-  - An input object can define a special `$then` key. It allows to define another input object (or an array) which is processed only once all the connectors of the current object have been evaluated. The resulting values of these connectors can be injected in the `$then` field. Note that an input object is considered as completed when all its connectors are evaluated _and_ its eventual `$then` field is completed.
-  - When an array of input objects if specified, its items are evaluated sequentially. This means that the connectors defined in a given item are evaluated only once all the previous items are completed. In other words, the values produced by the connectors of a given item can be injected in all subsequent items. Note that an array of input object is considered as completed when all its items are completed.
-
-Both these techniques can cohabit in order to produce complex and/or deep dependency graphs. However, most use cases will mainly involve parallel definitions, which are very easy to express, and which provide the best performances.
-
 ### The data connector
 
 The data connector is the simplest connector: it allows to inject some arbitrary data into the evaluation context. Such a connector looks like the following:
@@ -343,6 +338,80 @@ ActionLogResultConnector = {
     }
 }
 ```
+
+
+### Evaluation order
+
+The connectors defined in an input object are implicitly evaluated in parallel. Thus, a connector cannot use a value produced by one of its siblings.
+
+However, there are two ways for controlling the evaluation order of connectors:
+  - An input object can define a special `$then` key. It allows to define another input object (or an array) which is processed only once all the connectors of the current object have been evaluated. The resulting values of these connectors can be injected in the `$then` field using the markup syntax.
+  - When an array of input objects is specified, its items are evaluated in parallel. When coupled with `$then`, this allows to define several independent evaluation chains.
+
+As shown in the following example, these techniques can cohabit in order to define complex and/or deep dependency graphs. However, most use cases will involve implicit parallel definitions, which are easy to express and evaluated efficiently.
+
+### Example of dependency graph
+
+To illustrate the previous section, let's consider the following input object (for the sake of simplicity, connector definitions have voluntary been replaced by empty objects `{}`):
+
+```json
+[
+    {
+        "a": {},
+        "b": {},
+        "$then": [
+            {
+                "c": {}
+            },
+            {
+                "d": {},
+                "e": {},
+                "$then": {
+                    "f": {}
+                }
+            }
+        ]
+    },
+    {
+        "g": {}
+    }
+]
+```
+
+This declaration can mentally be represented as follows:
+
+```
+                             +---+
+                        ,----| c |
+            +---+      /     +---+
+            | a |     /
+       ,----|   |----:
+      /     | b |     \      +---+
+     /      +---+      \     | d |    +---+
+----:                   `----|   |----| f |
+     \                       | e |    +---+
+      \     +---+            +---+
+       `----| g |
+            +---+
+```
+
+Now, more verbosely, here is what would happen at evaluation time:
+  1. Two evaluation chains start in parallel (two items in the top-level array).
+    - The first chain follows the following steps:
+      1. Connectors `a` and `b` are evaluated in parallel.
+      2. When `a` and `b` have completed, two new evaluation chains start in parallel (two items in the `$then` field):
+        - The first chain simply evaluates the `c` connector.
+        - The second chain follows the following steps:
+          1. Connectors `d` and `e` are evaluated in parallel.
+          2. When `d` and `e` have completed, the `f` connector is evaluated.
+    - The second chain simply evaluates the `g` connector.
+  2. All connectors have properly been evaluated, and the resulting values can now been accessed using the markup syntax (`<((io.a))>` ... `<((io.g))>`).
+
+This example just aims at providing an overview of ordering capabilities. It is voluntarily complex and does not reflect a particular use case (see below for [a more realistic example](#complete-example)). However, it illustrates well how evaluation chains can be powerful. For instance, if evaluating the `g` connector is particularly expensive, it will not block nor affect in any way the other evaluation chain. Both will progress concurrently, and will be waited transparently for processing the following tasks.
+
+### Complete example
+
+TODO
 
 ## The `Step` object
 
