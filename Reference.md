@@ -282,6 +282,8 @@ Field | Description | Markup
 
 ### The views connector
 
+The views connector allows to retrieve the number of times a given step or this operation has been accessed.
+
 ```javascript
 ViewsConnector = {
     "$views": String | {
@@ -293,6 +295,22 @@ ViewsConnector = {
     }
 }
 ```
+
+When specified as a single `String`, the connector definition is directly interpreted as the `step` field.
+
+Field | Description | Markup
+------|-------------|-------
+`step` | Defines the step to consider. By default, consider all access to this operation. | Yes.
+`from` | Defines the lower bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
+`to` | Defines the upper bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
+`duration` | Defines the length of the time period taken into account. Default is unlimited if no `unit` is specified, `1` otherwise. | Yes.
+`unit` | Defines the unit of the `duration` field. Can be `millisecond`, `second`, `minute`, `hour` or `day`. Default is `millisecond`. | Yes.
+
+There are several ways for specifying the time period:
+  - When both `from` and `to` are specified, they define the exact bounds of the time period.
+  - When either `from` or `to` is specified, the time period is defined by that bound, and an eventual duration.
+  - When neither `from` nor `to` nor a duration is specified, the time period is unlimited.
+  - When only a duration is specified, a time period of this duration is automatically selected around the current time. This period is always a slice of the upper time unit. For example, if the duration is 10 minutes, each hour is splitted into 6 slices of 10 minutes. Then, the selected time period is the slice that contain the current time. If the upper unit is not dividable by the requested duration, an incomplete slice is produced. For example, a duration of 25 minutes splits each hour into 2 slices of 25 minutes and a slice of 10 minutes.
 
 ### The last view connector
 
@@ -342,7 +360,7 @@ ActionLogResultConnector = {
 
 ### Evaluation order
 
-The connectors defined in an input object are implicitly evaluated in parallel. Thus, a connector cannot use a value produced by one of its siblings.
+The connectors defined in the same input object are implicitly evaluated in parallel. Thus, a connector cannot use a value produced by one of its siblings.
 
 However, there are two ways for controlling the evaluation order of connectors:
   - An input object can define a special `$then` key. It allows to define another input object (or an array) which is processed only once all the connectors of the current object have been evaluated. The resulting values of these connectors can be injected in the `$then` field using the markup syntax.
