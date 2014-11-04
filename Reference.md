@@ -250,7 +250,7 @@ When specified as a single `String`, the connector definition is directly interp
 
 Field | Description | Markup
 ------|-------------|-------
-`url` | Defines the URL of the remote CSV file. It can be any valid URL string, or a parsed URL object. TODO: more details here. | Allowed, only the string format is accepted.
+`url` | Defines the URL of the remote CSV file. It can be any valid URL string, or a parsed URL object. TODO: more details here. | Yes, but only the string format is accepted.
 
 ### The file connector
 
@@ -553,11 +553,19 @@ Field | Description | Markup
 
 ### The redirection step
 
+A redirection step is a terminal step that allows to send an HTTP redirection.
+
 ```javascript
 RedirectStep = String | BaseStep + {
-    "redirect": Step
+    "redirect": String | Url
 }
 ```
+
+When the whole step definition is given as a single string, it is implicitly interpreted as the `redirect` field of a `RedirectStep`.
+
+Field | Description | Markup
+------|-------------|-------
+`redirect` | Defines the destination of the HTTP redirection. It can be any valid URL string, or a parsed URL object. TODO: more details here. | Yes, but only the string format is accepted.
 
 ### The vCard step
 
