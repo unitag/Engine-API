@@ -19,7 +19,7 @@ API Reference
   - [The file connector](#the-file-connector)
   - [The views connector](#the-views-connector)
   - [The last view connector](#the-last-view-connector)
-  - [The params connector](#the-params-connector)
+  - [The parameters connector](#the-parameters-connector)
   - [The action log result connector](#the-action-log-result-connector)
   - [Evaluation order](#evaluation-order)
   - [Example of dependency graph](#example-of-dependency-graph)
@@ -300,7 +300,7 @@ When specified as a single `String`, the connector definition is directly interp
 
 Field | Description | Markup
 ------|-------------|-------
-`step` | Defines the step to consider. By default, consider all access to this operation. | Yes.
+`step` | Defines the step to consider. By default, consider all accesses to this operation. | Yes.
 `from` | Defines the lower bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
 `to` | Defines the upper bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
 `duration` | Defines the length of the time period taken into account. Default is unlimited if no `unit` is specified, `1` otherwise. | Yes.
@@ -314,6 +314,8 @@ There are several ways for specifying the time period:
 
 ### The last view connector
 
+The last view connector allows to retrieve the date (and time) of the last access to a given step or to this operation.
+
 ```javascript
 LastViewConnector = {
     "$lastView": String | {
@@ -324,7 +326,17 @@ LastViewConnector = {
 }
 ```
 
-### The params connector
+When specified as a single `String`, the connector definition is directly interpreted as the `step` field.
+
+Field | Description | Markup
+------|-------------|-------
+`step` | Defines the step to consider. By default, consider all accesses to this operation. | Yes.
+`from` | Defines the lower bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
+`to` | Defines the upper bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
+
+### The parameters connector
+
+The parameters connector allows to retrieve all input parameters supplied upon access to a given step.
 
 ```javascript
 ParamsConnector = {
@@ -340,7 +352,72 @@ ParamsConnector = {
 }
 ```
 
+When specified as a single `String`, the connector definition is directly interpreted as the `step` field.
+
+Field | Description | Markup
+------|-------------|-------
+`step` | Defines the step to consider. `"index"` by default. | Yes.
+`from` | Defines the lower bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
+`to` | Defines the upper bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
+`output` | Defines how the results are generated from the HTTP parameters. See below for details on how to specify this field. Default is `"params"`. | Yes.
+`sort` | Defines the sorting order of results. Can be either `-1` (newest first), `1` (oldest first) or `0` (unordered). Unordered by default. | Yes.
+`skip` | Defines a number of results to be skipped. Especially useful in combination with `sort` and `limit` for pagination. No result is skipped by default. | Yes.
+`limit` | Defines the maximal number of results to be returned. All results are returned by default. | Yes.
+
+For each access, the following data is available:
+
+```javascript
+{
+    "creationTime": Date,
+    "params": {
+        "url": {},
+        "body": {},
+        "cookie": {},
+        "files": {}
+    }
+}
+```
+
+Field | Description
+------|------------
+`creationTime` | The date (and time) of the access.
+`params` | The HTTP parameters. Reflects what was injectable through `<((io.params))>` at runtime.
+
+The connector produces an array in which each item has been built from the input parameters supplied upon an access. The `output` field allows to define how to build these items. It consists in one or more strings that reference fields of the above object using the dot-notation. The structure of the `output` field (single value, array or map) is then replicated for each resulting item, with all references replaced by the targeted values.
+
+For example, let's consider the following `output` field:
+
+```json
+{
+    "date": "creationTime",
+    "form": "params.body"
+}
+```
+
+Assuming that the connector was configured on a step that accepts an HTTP form, we could obtain this kind of result:
+
+```javascript
+[
+    {
+        "date": Date("Thu, 01 Jan 1970 00:00:00 GMT"),
+        "form": {
+            "firstname": "Chuck",
+            "lastname": "Norris"
+        }
+    },
+    {
+        "date": Date:("Sun, 25 Aug 1991 20:57:08 GMT"),
+        "form": {
+            "firstname": "Linus",
+            "lastname": "Torvalds"
+        }
+    }
+]
+```
+
 ### The action log result connector
+
+The action log result connector allows to retrieve the results produced by the given [action(s)](#the-actions-object). Note that only results of actions with the `log` flag can be retrieved.
 
 ```javascript
 ActionLogResultConnector = {
@@ -357,6 +434,18 @@ ActionLogResultConnector = {
 }
 ```
 
+When specified as a single `String`, the connector definition is directly interpreted as the `actionName` field.
+
+Field | Description | Markup
+------|-------------|-------
+`actionName` | Defines the name of the action(s) to consider. By default, consider actions with any name. | Yes.
+`actionType` | Defines the type of the action(s) to consider. By default, consider actions with any type. | Yes.
+`step` | Defines the step to consider. By default, consider all accesses to this operation. | Yes.
+`from` | Defines the lower bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
+`to` | Defines the upper bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
+`sort` | Defines the sorting order of results. Can be either `-1` (newest first), `1` (oldest first) or `0` (unordered). Unordered by default. | Yes.
+`skip` | Defines a number of results to be skipped. Especially useful in combination with `sort` and `limit` for pagination. No result is skipped by default. | Yes.
+`limit` | Defines the maximal number of results to be returned. All results are returned by default. | Yes.
 
 ### Evaluation order
 
