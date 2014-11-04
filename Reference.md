@@ -241,7 +241,7 @@ The CSV connector allows to retrieve a remote CSV file and to inject its parsed 
 ```javascript
 CsvConnector = {
     "$csv": String | {
-        url: String | Url
+        "url": String | Url
     }
 }
 ```
@@ -262,13 +262,13 @@ FileConnector = {
 }
 
 RemoteFile = {
-    url: String | Object,
-    encoding: String
+    "url": String | Object,
+    "encoding": String
 }
 
 UploadedFile = {
-    filename: String,
-    encoding: String
+    "filename": String,
+    "encoding": String
 }
 ```
 
@@ -287,11 +287,11 @@ The views connector allows to retrieve the number of times a given step or this 
 ```javascript
 ViewsConnector = {
     "$views": String | {
-        step: String,
-        from: Date,
-        to: Date,
-        duration: Number,
-        unit: String
+        "step": String,
+        "from": Date,
+        "to": Date,
+        "duration": Number,
+        "unit": String
     }
 }
 ```
@@ -319,9 +319,9 @@ The last view connector allows to retrieve the date (and time) of the last acces
 ```javascript
 LastViewConnector = {
     "$lastView": String | {
-        step: String,
-        from: Date,
-        to: Date
+        "step": String,
+        "from": Date,
+        "to": Date
     }
 }
 ```
@@ -341,13 +341,13 @@ The parameters connector allows to retrieve all input parameters supplied upon a
 ```javascript
 ParamsConnector = {
     "$params": String | {
-        step: String,
-        from: Date,
-        to: Date,
-        output: String | [String] | {String},
-        sort: Number,
-        skip: Number,
-        limit: Number
+        "step": String,
+        "from": Date,
+        "to": Date,
+        "output": String | [String] | {String},
+        "sort": Number,
+        "skip": Number,
+        "limit": Number
     }
 }
 ```
@@ -422,14 +422,14 @@ The action log result connector allows to retrieve the results produced by the g
 ```javascript
 ActionLogResultConnector = {
     "$actionLogResult": String | {
-        actionName: String,
-        actionType: String,
-        step: String,
-        from: Date,
-        to: Date,
-        sort: Number,
-        skip: Number,
-        limit: Number
+        "actionName": String,
+        "actionType": String,
+        "step": String,
+        "from": Date,
+        "to": Date,
+        "sort": Number,
+        "skip": Number,
+        "limit": Number
     }
 }
 ```
@@ -522,7 +522,11 @@ TODO
 
 ## The `Step` object
 
-TODO
+A step is fundamentally a piece of logic. There are two kinds of step:
+  - A transitional step allow to take decisions by conditionally redirecting to another step.
+  - A terminal steps allows to generate an HTTP response, thus ending a chain of transitional steps.
+
+Steps can be seen as statements in a standard programming language: transitional steps mimic control flow structures, while terminal steps mimic regular instructions (with potential side-effects).
 
 ```javascript
 Step = RedirectStep | VcardStep | JsonStep | UmeStep |
@@ -531,6 +535,8 @@ Step = RedirectStep | VcardStep | JsonStep | UmeStep |
 
 ### Base fields of steps
 
+A step generally looks like the following:
+
 ```javascript
 BaseStep = {
     "label": String,
@@ -538,6 +544,12 @@ BaseStep = {
     "trigger": Actions | [Actions]
 }
 ```
+
+Field | Description | Markup
+------|-------------|-------
+`label` | Defines a name for this step. It is mandatory when the step needs to be referenced (connectors, `goto` steps and analytics). | No.
+`input` | Defines which data is needed locally for this step and its potential descendants. Can be a single value or an array. See the [Input](#the-input-object) object for more details. | No.
+`trigger` | Defines the action(s) to be triggered when accessing this step. Can be a single value or an array. See the [Actions](#the-actions-object) for more details. | No.
 
 ### The redirection step
 
