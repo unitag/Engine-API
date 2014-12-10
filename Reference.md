@@ -569,9 +569,22 @@ Field | Description | Markup
 
 ### The vCard step
 
+A vCard step allows to...
+
 ```javascript
 VcardStep = BaseStep + {
     "vcard": Vcard
+}
+```
+
+### The JSON step
+
+```javascript
+JsonStep = BaseStep + {
+    "json": Boolean | Number | String | Array | {
+        "status": Number,
+        "body": Boolean | Number | String | Object
+    }
 }
 ```
 
