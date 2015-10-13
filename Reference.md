@@ -79,15 +79,11 @@ Exemples à placer aux bons endroits :
     },
     "state": "PUBLISHED",
     "index": {
-        "response": {
-            "body": "Here is the index step"
-        }
+        "response": "Here is the index step"
     },
     "entryPoints": {
         "foobar": {
-            "response": {
-                "body": "Here is the foobar step"
-            }
+            "response": "Here is the foobar step"
         }
     }
 }
