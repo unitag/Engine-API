@@ -28,6 +28,7 @@ API Reference
   - [Base fields of steps](#base-fields-of-steps)
   - [The redirection step](#the-redirection-step)
   - [The vCard step](#the-vcard-step)
+  - [The response step](#the-response-step)
   - [The U.me step](#the-ume-step)
   - [The `switch`/`cases`/`default` step](#the-switchcasesdefault-step)
   - [The `if`/`then`/`else` step](#the-ifthenelse-step)
