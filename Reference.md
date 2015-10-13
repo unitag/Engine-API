@@ -78,13 +78,13 @@ Exemples à placer aux bons endroits :
     },
     "state": "PUBLISHED",
     "index": {
-        "json": {
+        "response": {
             "body": "Here is the index step"
         }
     },
     "entryPoints": {
         "foobar": {
-            "json": {
+            "response": {
                 "body": "Here is the foobar step"
             }
         }
@@ -529,7 +529,7 @@ A step is fundamentally a piece of logic. There are two kinds of step:
 Steps can be seen as statements in a standard programming language: transitional steps mimic control flow structures, while terminal steps mimic regular instructions (with potential side-effects).
 
 ```javascript
-Step = RedirectStep | VcardStep | JsonStep | UmeStep |
+Step = RedirectStep | VcardStep | ResponseStep | UmeStep |
        SwitchStep | IfStep | GotoStep | TryStep
 ```
 
@@ -577,11 +577,11 @@ VcardStep = BaseStep + {
 }
 ```
 
-### The JSON step
+### The response step
 
 ```javascript
-JsonStep = BaseStep + {
-    "json": Boolean | Number | String | Array | {
+ResponseStep = BaseStep + {
+    "response": Boolean | Number | String | Array | {
         "status": Number,
         "body": Boolean | Number | String | Object
     }
