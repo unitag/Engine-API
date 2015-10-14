@@ -17,10 +17,11 @@ API Reference
   - [The data connector](#the-data-connector)
   - [The CSV connector](#the-csv-connector)
   - [The file connector](#the-file-connector)
-  - [The views connector](#the-views-connector)
-  - [The last view connector](#the-last-view-connector)
+  - [The visits connector](#the-visits-connector)
+  - [The last visit connector](#the-last-visit-connector)
   - [The parameters connector](#the-parameters-connector)
   - [The action log result connector](#the-action-log-result-connector)
+  - [The action log count connector](#the-action-log-count-connector)
   - [Evaluation order](#evaluation-order)
   - [Example of dependency graph](#example-of-dependency-graph)
   - [Complete example](#complete-example)
@@ -213,8 +214,8 @@ Input = {Connector} + {
 }
 
 Connector = DataConnector | CsvConnector | FileConnector |
-            ViewsConnector | LastViewConnector | ParamsConnector |
-            ActionLogResultConnector
+            VisitsConnector | LastVisitConnector | ParamsConnector |
+            ActionLogResultConnector | ActionLogCountConnector
 ```
 
 So, an input object is basically a map of connectors, where the key defines the name of the resulting value (accessible through `<((io.name))>` after evaluation), and the value defines how to produce the resulting value.
@@ -247,7 +248,7 @@ When specified as a single `String`, the connector definition is directly interp
 
 Field | Description | Markup
 ------|-------------|-------
-`url` | Defines the URL of the remote CSV file. It can be any valid URL string, or a parsed URL object. TODO: more details here. | Yes, but only the string format is accepted.
+`url` | Defines the URL of the remote CSV file. It can be any valid URL string, or a parsed URL object. TODO: more details here. | Yes, but only the string format is accepted
 
 ### The file connector
 
@@ -273,17 +274,17 @@ When specified as a single `String`, the connector definition is directly interp
 
 Field | Description | Markup
 ------|-------------|-------
-`url` | Defines the URL of a remote file. It can be any valid URL string, or a parsed URL object. TODO: more details here. | Yes, but only the string format is accepted.
-`filename` | Defines the name of an uploaded file, which can be obtained from the `<((params.file))>` object. | Yes.
-`encoding` | Optionally specifies the encoding of the loaded file: `utf8`, `base64`, `hex` or `ascii`. Default is `base64`. | Yes.
+`url` | Defines the URL of a remote file. It can be any valid URL string, or a parsed URL object. TODO: more details here. | Yes, but only the string format is accepted
+`filename` | Defines the name of an uploaded file, which can be obtained from the `<((params.file))>` object. | Yes
+`encoding` | Optionally specifies the encoding of the loaded file: `utf8`, `base64`, `hex` or `ascii`. Default is `base64`. | Yes
 
-### The views connector
+### The visits connector
 
-The views connector allows to retrieve the number of times a given step or this operation has been accessed.
+The visits connector allows to retrieve the number of times a given step or this operation has been accessed.
 
 ```javascript
-ViewsConnector = {
-    "$views": String | {
+VisitsConnector = {
+    "$visits": String | {
         "step": String,
         "from": Date,
         "to": Date,
@@ -297,11 +298,11 @@ When specified as a single `String`, the connector definition is directly interp
 
 Field | Description | Markup
 ------|-------------|-------
-`step` | Defines the step to consider. By default, consider all accesses to this operation. | Yes.
-`from` | Defines the lower bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
-`to` | Defines the upper bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
-`duration` | Defines the length of the time period taken into account. Default is unlimited if no `unit` is specified, `1` otherwise. | Yes.
-`unit` | Defines the unit of the `duration` field. Can be `millisecond`, `second`, `minute`, `hour` or `day`. Default is `millisecond`. | Yes.
+`step` | Defines the step to consider. By default, consider all accesses to this operation. | Yes
+`from` | Defines the lower bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted
+`to` | Defines the upper bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted
+`duration` | Defines the length of the time period taken into account. Default is unlimited if no `unit` is specified, `1` otherwise. | Yes
+`unit` | Defines the unit of the `duration` field. Can be `millisecond`, `second`, `minute`, `hour` or `day`. Default is `millisecond`. | Yes
 
 There are several ways for specifying the time period:
   - When both `from` and `to` are specified, they define the exact bounds of the time period.
@@ -309,13 +310,13 @@ There are several ways for specifying the time period:
   - When neither `from` nor `to` nor a duration is specified, the time period is unlimited.
   - When only a duration is specified, a time period of this duration is automatically selected around the current time. This period is always a slice of the upper time unit. For example, if the duration is 10 minutes, each hour is splitted into 6 slices of 10 minutes. Then, the selected time period is the slice that contain the current time. If the upper unit is not dividable by the requested duration, an incomplete slice is produced. For example, a duration of 25 minutes splits each hour into 2 slices of 25 minutes and a slice of 10 minutes.
 
-### The last view connector
+### The last visit connector
 
-The last view connector allows to retrieve the date (and time) of the last access to a given step or to this operation.
+The last visit connector allows to retrieve the date (and time) of the last access to a given step or to this operation.
 
 ```javascript
-LastViewConnector = {
-    "$lastView": String | {
+LastVisitConnector = {
+    "$lastVisit": String | {
         "step": String,
         "from": Date,
         "to": Date
@@ -327,9 +328,9 @@ When specified as a single `String`, the connector definition is directly interp
 
 Field | Description | Markup
 ------|-------------|-------
-`step` | Defines the step to consider. By default, consider all accesses to this operation. | Yes.
-`from` | Defines the lower bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
-`to` | Defines the upper bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
+`step` | Defines the step to consider. By default, consider all accesses to this operation. | Yes
+`from` | Defines the lower bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted
+`to` | Defines the upper bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted
 
 ### The parameters connector
 
@@ -353,13 +354,13 @@ When specified as a single `String`, the connector definition is directly interp
 
 Field | Description | Markup
 ------|-------------|-------
-`step` | Defines the step to consider. `"index"` by default. | Yes.
-`from` | Defines the lower bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
-`to` | Defines the upper bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
-`output` | Defines how the results are generated from the HTTP parameters. See below for details on how to specify this field. Default is `"params"`. | Yes.
-`sort` | Defines the sorting order of results. Can be either `-1` (newest first), `1` (oldest first) or `0` (unordered). Unordered by default. | Yes.
-`skip` | Defines a number of results to be skipped. Especially useful in combination with `sort` and `limit` for pagination. No result is skipped by default. | Yes.
-`limit` | Defines the maximal number of results to be returned. All results are returned by default. | Yes.
+`step` | Defines the step to consider. `"index"` by default. | Yes
+`from` | Defines the lower bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted
+`to` | Defines the upper bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted
+`output` | Defines how the results are generated from the HTTP parameters. See below for details on how to specify this field. Default is `"params"`. | Yes
+`sort` | Defines the sorting order of results. Can be either `-1` (newest first), `1` (oldest first) or `0` (unordered). Unordered by default. | Yes
+`skip` | Defines a number of results to be skipped. Especially useful in combination with `sort` and `limit` for pagination. No result is skipped by default. | Yes
+`limit` | Defines the maximal number of results to be returned. All results are returned by default. | Yes
 
 For each access, the following data is available:
 
@@ -435,14 +436,40 @@ When specified as a single `String`, the connector definition is directly interp
 
 Field | Description | Markup
 ------|-------------|-------
-`actionName` | Defines the name of the action(s) to consider. By default, consider actions with any name. | Yes.
-`actionType` | Defines the type of the action(s) to consider. By default, consider actions with any type. | Yes.
-`step` | Defines the step to consider. By default, consider all accesses to this operation. | Yes.
-`from` | Defines the lower bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
-`to` | Defines the upper bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted.
-`sort` | Defines the sorting order of results. Can be either `-1` (newest first), `1` (oldest first) or `0` (unordered). Unordered by default. | Yes.
-`skip` | Defines a number of results to be skipped. Especially useful in combination with `sort` and `limit` for pagination. No result is skipped by default. | Yes.
-`limit` | Defines the maximal number of results to be returned. All results are returned by default. | Yes.
+`actionName` | Defines the name of the action(s) to consider. By default, consider actions with any name. | Yes
+`actionType` | Defines the type of the action(s) to consider. By default, consider actions with any type. | Yes
+`step` | Defines the step to consider. By default, consider all accesses to this operation. | Yes
+`from` | Defines the lower bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted
+`to` | Defines the upper bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted
+`sort` | Defines the sorting order of results. Can be either `-1` (newest first), `1` (oldest first) or `0` (unordered). Unordered by default. | Yes
+`skip` | Defines a number of results to be skipped. Especially useful in combination with `sort` and `limit` for pagination. No result is skipped by default. | Yes
+`limit` | Defines the maximal number of results to be returned. All results are returned by default. | Yes
+
+### The action log count connector
+
+The action log count connector allows to retrieve the number of times the given [action(s)](#the-actions-object) has been triggered. Note that only actions with the `log` flag can be counted.
+
+```javascript
+ActionLogCountConnector = {
+    "$actionLogCount": String | {
+        "actionName": String,
+        "actionType": String,
+        "step": String,
+        "from": Date,
+        "to": Date
+    }
+}
+```
+
+When specified as a single `String`, the connector definition is directly interpreted as the `actionName` field.
+
+Field | Description | Markup
+------|-------------|-------
+`actionName` | Defines the name of the action(s) to consider. By default, consider actions with any name. | Yes
+`actionType` | Defines the type of the action(s) to consider. By default, consider actions with any type. | Yes
+`step` | Defines the step to consider. By default, consider all accesses to this operation. | Yes
+`from` | Defines the lower bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted
+`to` | Defines the upper bound of the time period taken into account. Unlimited by default. | Yes, but only a numeric timestamp is accepted
 
 ### Evaluation order
 
@@ -544,9 +571,9 @@ BaseStep = {
 
 Field | Description | Markup
 ------|-------------|-------
-`label` | Defines a name for this step. It is mandatory when the step needs to be referenced (connectors, `goto` steps and analytics). | No.
-`input` | Defines which data is needed locally for this step and its potential descendants. Can be a single value or an array. See the [Input](#the-input-object) object for more details. | No.
-`trigger` | Defines the action(s) to be triggered when accessing this step. Can be a single value or an array. See the [Actions](#the-actions-object) for more details. | No.
+`label` | Defines a name for this step. It is mandatory when the step needs to be referenced (connectors, `goto` steps and analytics). | No
+`input` | Defines which data is needed locally for this step and its potential descendants. Can be a single value or an array. See the [Input](#the-input-object) object for more details. | No
+`trigger` | Defines the action(s) to be triggered when accessing this step. Can be a single value or an array. See the [Actions](#the-actions-object) for more details. | No
 
 ### The redirection step
 
@@ -562,7 +589,7 @@ When the whole step definition is given as a single string, it is implicitly int
 
 Field | Description | Markup
 ------|-------------|-------
-`redirect` | Defines the destination of the HTTP redirection. It can be any valid URL string, or a parsed URL object. TODO: more details here. | Yes, but only the string format is accepted.
+`redirect` | Defines the destination of the HTTP redirection. It can be any valid URL string, or a parsed URL object. TODO: more details here. | Yes, but only the string format is accepted
 
 ### The vCard step
 
