@@ -616,7 +616,8 @@ ResponseStep = BaseStep + {
 
 ```javascript
 UmeStep = BaseStep + {
-    "ume": Ume
+    "ume": Ume,
+    "mode": String
 }
 ```
 
