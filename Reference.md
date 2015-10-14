@@ -38,6 +38,7 @@ API Reference
 - [The `Test` object](#the-test-object)
 - [The `Actions` object](#the-actions-object)
   - [Base fields of actions](#base-fields-of-actions)
+  - [The data action](#the-data-action)
   - [The email action](#the-email-action)
   - [The SMS action](#the-sms-action)
   - [The cookie action](#the-cookie-action)
