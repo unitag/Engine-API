@@ -680,6 +680,7 @@ Actions = {
     "logged": Boolean,
     "waited": Boolean,
 
+    "data": DataAction | [DataAction],
     "email": EmailAction | [EmailAction],
     "sms": SmsAction | [SmsAction],
     "cookie": CookieAction | [CookieAction],
@@ -697,12 +698,22 @@ BaseAction = {
 }
 ```
 
+### The data action
+
+```javascript
+DataAction = BaseAction + {
+    "value": Boolean | Number | String | Object
+}
+```
+
 ### The email action
 
 ```javascript
 EmailAction = BaseAction + {
     "from": String | [String] | Object | [Object],
     "to": String | [String] | Object | [Object],
+    "cc": String | [String] | Object | [Object],
+    "bcc": String | [String] | Object | [Object],
     "subject": Boolean | Number | String | Object,
     "body": Boolean | Number | String | Object,
     "attachment": Attachment | [Attachment]
@@ -727,7 +738,7 @@ TextAttachement = String | {
 ### The SMS action
 
 ```javascript
-SmsAction = Action + {
+SmsAction = BaseAction + {
     "destination": String,
     "text": Boolean | Number | String | Object
 }
@@ -736,7 +747,7 @@ SmsAction = Action + {
 ### The cookie action
 
 ```javascript
-CookieAction = Action + {
+CookieAction = BaseAction + {
     "key": Boolean | Number | String,
     "value": Boolean | Number | String | Object,
     "age": Number
@@ -746,7 +757,7 @@ CookieAction = Action + {
 ### The upload action
 
 ```javascript
-UploadAction = Action + {
+UploadAction = BaseAction + {
     "file": String | File,
     "alterations": [Alteration]
 }
