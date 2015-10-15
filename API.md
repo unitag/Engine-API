@@ -1,8 +1,9 @@
 FORMAT: 1A
+HOST: https://betapi.unitag.io
 
-# Operations API
+# Unitag Engine API
 
-This document describes the HTTP interface for accessing the Unitag operations API.
+This document describes the HTTP interface for accessing the Unitag Engine API.
 
 If you are displaying this page from [GitHub](https://github.com/unitag/Engine-API/blob/master/API.md), you are actually reading an [API Blueprint](http://apiblueprint.org/) specification. Although this format is readable as is, you may prefer switching to the [enhanced version](http://unitag.github.io/Engine-API/api).
 
@@ -11,14 +12,14 @@ If you are displaying this page from [GitHub](https://github.com/unitag/Engine-A
 The following API routes are relative to this base URL:
 
 ```no-highlight
-https://tmp-api.unitag.io
+https://betapi.unitag.io
 ```
 
 This host name is voluntarily stamped as _temporary_, and will probably disappear after the beta stage (replaced by a nicer host name).
 
 ## Authentication
 
-Every request to the operations API must be authenticated using the following header:
+Every request to the Engine API must be authenticated using the following header:
 
 ```http
 Authorization: Unitag token="<your token>"
@@ -57,23 +58,23 @@ The following examples can be used for testing purposes.
         }
     },
     "index": {
-        "if": "<(('guess' in params.url))>",
         "input": {
-            "guess": "<((params.url.guess | $parse))>"
+            "guess": "<((params.url | $get('guess') | $parse))>"
         },
+        "if": "<((io.guess != null))>",
         "then": {
             "if": "<((io.guess == io.secret))>",
             "then": {
                 "trigger": {
                     "cookie": {"key": "secret", "age": 0}
                 },
-                "json": "Congratulations! The secret number was <((io.secret))>."
+                "response": "Congratulations! The secret number was <((io.secret))>."
             },
             "else": {
                 "trigger": {
                     "cookie": {"key": "secret", "value": "<((io.secret))>", "age": 300000}
                 },
-                "json": {
+                "response": {
                     "body": {
                         "newGame": "<((!io.continue))>",
                         "hint": "<(((io.guess > io.secret) ? 'LESS' : 'MORE'))>"
@@ -82,7 +83,7 @@ The following examples can be used for testing purposes.
             }
         },
         "else": {
-            "json": "Try to guess the secret number with ?guess={YOUR ATTEMPT}"
+            "response": "Try to guess the secret number with ?guess={YOUR ATTEMPT}"
         }
     }
 }
@@ -90,7 +91,7 @@ The following examples can be used for testing purposes.
 
 ## Error handling
 
-When the operation API encounters an error, it produces an HTTP response with an appropriate status code (**`4xx`** or **`5xx`**) and a JSON body. This JSON document is always an object with the following keys:
+When the Engine API encounters an error, it produces an HTTP response with an appropriate status code (**`4xx`** or **`5xx`**) and a JSON body. This JSON document is always an object with the following keys:
 + `code`: a string identifying the error
 + `message`: a more verbose error description
 + `details`: if present, additional data which could help to figure out the cause of the error
@@ -117,13 +118,15 @@ Like for most errors in the input document, the `details` object contains the fo
 
 What's more, in order to avoid confusions, the API only returns keys that were actually used. Thus, even if unsupported keys are not rejected, this behavior can be used to determine whether a given key as been understood or ignored by the API.
 
-# Group API routes
+# Group Operations API
 
 ## Operation [/operations/{id}]
 This resource represents one particular operation identified by its **id**.
 
+[Operation]: #operation-operationsid
+
 + Parameters
-    + id (string) ... ID of the operation.
+    + id (string) ... ID of the operation
 
 + Model (application/json)
 
@@ -133,7 +136,7 @@ This resource represents one particular operation identified by its **id**.
         "creationTime": "1970-01-01T00:00:00.000Z",
         "url": [],
         "state": "PUBLISHED",
-        ...
+        "...": "..."
     }
     ```
 
@@ -153,7 +156,7 @@ Update an operation.
     {
         "url": [],
         "state": "PUBLISHED",
-        ...
+        "...": "..."
     }
     ```
 
@@ -162,25 +165,27 @@ Update an operation.
     [Operation][]
 
 ### Delete an operation [DELETE]
-Delete an operation. **Warning:** This action **permanently** removes the operation from the database.
+Delete an operation. **Warning:** this action **permanently** removes the operation from the database.
 
 + Response 204
 
 ## Operations collection [/operations]
 This resource represents the collection of created operations.
 
+[Operations collection]: #operations-collection-operations
+
 + Model (application/json)
 
     ```json
     [
         {
-            "id": "0123456789abcdef0123456789",
+            "id": "0123456789abcdef01234567",
             "creationTime": "1970-01-01T00:00:00.000Z",
             "url": [],
             "state": "PUBLISHED",
-            ...
+            "...": "..."
         },
-        ...
+        "..."
     ]
     ```
 
@@ -200,14 +205,10 @@ Create a new operation.
     {
         "url": [],
         "state": "PUBLISHED",
-        ...
+        "...": "..."
     }
     ```
 
 + Response 201
 
     [Operation][]
-
-
-[Operations collection]: #operations-collection-operations
-[Operation]: #operation-operationsid
