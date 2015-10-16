@@ -1,6 +1,6 @@
 .PHONY: all clean
 
-all: docs/game.html
+all: docs/minimal.html docs/game.html
 
 docs/%.html: src/%.json docco languages.json unitag-engine.js
 	./docco $<

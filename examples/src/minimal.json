@@ -1,0 +1,17 @@
+// # Minimal example
+// This example illustrates how to use the [Unitag Engine API](http://unitag.github.io/Engine-API/api) to create a simple redirection.
+
+// The raw JSON document can be found [here](http://unitag.github.io/Engine-API/examples/minimal.json).
+{
+    // Define the URL that will be used to access this operation.
+    // The resulting URL has the following form: `http://e.unitag.io/r/{YOUR PATH HERE}`.
+    "url": "{YOUR PATH HERE}",
+
+    // Mark this operation as published.
+    // This is needed to make it publicly available.
+    "state": "PUBLISHED",
+
+    // Define the default entry point of this operations.
+    // This is a simplified `redirect` step which triggers a redirection to Google.
+    "index": "http://www.google.com"
+}
