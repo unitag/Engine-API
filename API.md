@@ -33,7 +33,7 @@ The following HTTP methods allow to manipulate operations as JSON documents. The
 
 ## Examples
 
-The following examples can be used for testing purposes. If you use the awesome [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) for API testing, you may want to import directly [the request collection](http://unitag.github.io/Engine-API/unitag-engine-api.json.postman_collection).
+The following examples can be used for testing purposes. If you use the awesome [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) for API testing, you may want to import directly [the request collection](http://unitag.github.io/Engine-API/unitag-engine-api.json.postman_collection) (remember to replace your authentication token).
 
 ### Minimal example
 
