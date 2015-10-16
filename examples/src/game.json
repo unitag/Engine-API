@@ -1,28 +1,57 @@
 {
-    // Defines the URL that will be used to access this operation.
+    // Define the URL that will be used to access this operation.
     "url": "{YOUR PATH HERE}",
 
     // Mark this operation as published.
     "state": "PUBLISHED",
+
+    // Define the global input values:
+    //  1. Load the `continues` value.
+    //     The result is a boolean which indicates whether a cookie named `secret` has been sent by the user agent.
+    //
+    //  2. Once `continues` is loaded, use its value to compute the `secret` value.
+    //     The result is the secret number: either the previous one which is restored from the `secret` cookie, or a new one which is chosen randomly.
+    //
+    // Both `continues` and `secret` are implicit `data` connectors. Their values are computed using an expression langage delimited by a _markup syntax_: `<((...))>`.
+    // The expression language by itself is largely inspired by JavaScript expressions.
+    //
+    // Here are the encountered specificities:
+    //  * `params.cookie` exposes the cookies sent by the user agent
+    //  * `io` allows to access the already computed input values
+    //  * `$randomInt` returns a random integer between the given bounds
     "input": {
         "continue": "<(('secret' in params.cookie))>",
         "$then": {
             "secret": "<((io.continue ? params.cookie.secret : $randomInt(0, 1000)))>"
         }
     },
+
+    // Define the default entry point of this operations.
     "index": {
+        // Define a local input value, `guess`, which is computed using some more specificities of the expression language:
+        //  * `params.url` exposes the _query string_ parameters.
+        //  * The `|` operator allows to chain functions by prepending the result of its left operand to the arguments of the right operand.
+        //    For instance, this expression is equivalent to `$parse($get(params.url, 'guess'))`.
+        //  * A function always starts by `$`, and can be called without parentheses if no argument is needed.
+        //  * `$get` allows to extract an attribute without checking its existence: if `params.url.guess` does not exists, we obtain `null`.
+        //  * `$parse` allows to parse any JSON string. Here, it is used to cast a string into a number.
         "input": {
             "guess": "<((params.url | $get('guess') | $parse))>"
         },
+
+        // Check if the `guess` parameter is set.
         "if": "<((io.guess != null))>",
+        // If the `guess` parameter is set, check if the secret number has been found.
         "then": {
             "if": "<((io.guess == io.secret))>",
+            // If the secret number has been found, remove the `secret` cookie and send a congratulation message.
             "then": {
                 "trigger": {
                     "cookie": {"key": "secret", "age": 0}
                 },
                 "response": "Congratulations! The secret number was <((io.secret))>."
             },
+            // If the secret number has not been found, set the `secret` cookie and send a JSON response containing an hint.
             "else": {
                 "trigger": {
                     "cookie": {"key": "secret", "value": "<((io.secret))>", "age": 300000}
@@ -35,6 +64,7 @@
                 }
             }
         },
+        // If the `guess` parameter is not set, send a usage message.
         "else": {
             "response": "Try to guess the secret number with ?guess={YOUR ATTEMPT}"
         }
