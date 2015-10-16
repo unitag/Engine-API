@@ -33,10 +33,7 @@ The following HTTP methods allow to manipulate operations as JSON documents. The
 
 ## Examples
 
-The following examples can be used for testing purposes. If you use the awesome [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) for API testing, you may want to import directly [the request collection](http://unitag.github.io/Engine-API/unitag-engine-api.json.postman_collection) (remember to replace your authentication token).
-
-### Minimal example
-
+Here is a [minimal example](http://unitag.github.io/Engine-API/examples/minimal), which simply redirects to Google:
 ```json
 {
     "url": "{YOUR PATH HERE}",
@@ -45,49 +42,11 @@ The following examples can be used for testing purposes. If you use the awesome 
 }
 ```
 
-### Tiny game
+The following examples can also be used for learning and testing purposes:
++ [Hello World!](http://unitag.github.io/Engine-API/examples/hello): a simple _Hello World!_
++ [Tiny game](http://unitag.github.io/Engine-API/examples/game): a more advanced example
 
-```json
-{
-    "url": "{YOUR PATH HERE}",
-    "state": "PUBLISHED",
-    "input": {
-        "continue": "<(('secret' in params.cookie))>",
-        "$then": {
-            "secret": "<((io.continue ? params.cookie.secret : $randomInt(0, 1000)))>"
-        }
-    },
-    "index": {
-        "input": {
-            "guess": "<((params.url | $get('guess') | $parse))>"
-        },
-        "if": "<((io.guess != null))>",
-        "then": {
-            "if": "<((io.guess == io.secret))>",
-            "then": {
-                "trigger": {
-                    "cookie": {"key": "secret", "age": 0}
-                },
-                "response": "Congratulations! The secret number was <((io.secret))>."
-            },
-            "else": {
-                "trigger": {
-                    "cookie": {"key": "secret", "value": "<((io.secret))>", "age": 300000}
-                },
-                "response": {
-                    "body": {
-                        "newGame": "<((!io.continue))>",
-                        "hint": "<(((io.guess > io.secret) ? 'LESS' : 'MORE'))>"
-                    }
-                }
-            }
-        },
-        "else": {
-            "response": "Try to guess the secret number with ?guess={YOUR ATTEMPT}"
-        }
-    }
-}
-```
+If you use the awesome [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) for API testing, you may want to import directly [the request collection](http://unitag.github.io/Engine-API/unitag-engine-api.json.postman_collection) (remember to replace your authentication token).
 
 ## Error handling
 
