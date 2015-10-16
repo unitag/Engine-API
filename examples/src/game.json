@@ -1,8 +1,19 @@
+// # Game example
+// This example illustrates how to use the [Unitag Engine API](http://unitag.github.io/Engine-API/api) to create a tiny game.
+//
+// ## Goal
+// The player is invited to guess a secret number, which is initially chosen randomly and then stored in a cookie until the end of the game.
+// Upon each attempt, the server indicates whether the secret number is higher or lower than the user's guess.
+
+// ## Implementation
+// The raw JSON document can be found [here](http://unitag.github.io/Engine-API/examples/game.json).
 {
     // Define the URL that will be used to access this operation.
+    // The resulting URL has the following form: `http://e.unitag.io/r/{YOUR PATH HERE}`.
     "url": "{YOUR PATH HERE}",
 
     // Mark this operation as published.
+    // This is needed to make it publicly available.
     "state": "PUBLISHED",
 
     // Define the global input values:
@@ -30,7 +41,7 @@
     "index": {
         // Define a local input value, `guess`, which is computed using some more specificities of the expression language:
         //  * `params.url` exposes the _query string_ parameters.
-        //  * The `|` operator allows to chain functions by prepending the result of its left operand to the arguments of the right operand.
+        //  * The `|` operator allows to chain functions by prepending the result of its left operand to the arguments of its right operand.
         //    For instance, this expression is equivalent to `$parse($get(params.url, 'guess'))`.
         //  * A function always starts by `$`, and can be called without parentheses if no argument is needed.
         //  * `$get` allows to extract an attribute without checking its existence: if `params.url.guess` does not exists, we obtain `null`.
@@ -70,3 +81,10 @@
         }
     }
 }
+
+// ## Go further
+// If you wish to experiment by yourself, you may consider adding the following features:
+//  1. Add another entry point which displays directly the secret number.
+//  2. Protect this entry point by an hardcoded password.
+//  3. Check the credentials against a CSV file (whitelist) instead the hardcoded password.
+//  4. Display a nicer GUI using U.me rendering.
