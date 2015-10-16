@@ -41,7 +41,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Defines the URL that will be used to access this operation.</p>
+              <p>Define the URL that will be used to access this operation.</p>
 
             </div>
             
@@ -60,27 +60,149 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    "state": <span class="hljs-string">"PUBLISHED"</span>,
-    <span class="hljs-builtin">"input"</span>: {
+            <div class="content"><div class='highlight'><pre>    "state": <span class="hljs-string">"PUBLISHED"</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Define the global input values:</p>
+<ol>
+<li><p>Load the <code>continues</code> value.
+The result is a boolean which indicates whether a cookie named <code>secret</code> has been sent by the user agent.</p>
+</li>
+<li><p>Once <code>continues</code> is loaded, use its value to compute the <code>secret</code> value.
+The result is the secret number: either the previous one which is restored from the <code>secret</code> cookie, or a new one which is chosen randomly.</p>
+</li>
+</ol>
+<p>Both <code>continues</code> and <code>secret</code> are implicit <code>data</code> connectors. Their values are computed using an expression langage delimited by a <em>markup syntax</em>: <code>&lt;((...))&gt;</code>.
+The expression language by itself is largely inspired by JavaScript expressions.</p>
+<p>Here are the encountered specificities:</p>
+<ul>
+<li><code>params.cookie</code> exposes the cookies sent by the user agent</li>
+<li><code>io</code> allows to access the already computed input values</li>
+<li><code>$randomInt</code> returns a random integer between the given bounds</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-builtin">"input"</span>: {
         "continue": <span class="hljs-string">"&lt;(('secret' in params.cookie))&gt;"</span>,
         <span class="hljs-builtin">"$then"</span>: {
             "secret": <span class="hljs-string">"&lt;((io.continue ? params.cookie.secret : $randomInt(0, 1000)))&gt;"</span>
         }
-    },
-    "index": {
-        <span class="hljs-builtin">"input"</span>: {
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Define the default entry point of this operations.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    "index": {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Define a local input value, <code>guess</code>, which is computed using some more specificities of the expression language:</p>
+<ul>
+<li><code>params.url</code> exposes the <em>query string</em> parameters.</li>
+<li>The <code>|</code> operator allows to chain functions by prepending the result of its left operand to the arguments of the right operand.
+For instance, this expression is equivalent to <code>$parse($get(params.url, &#39;guess&#39;))</code>.</li>
+<li>A function always starts by <code>$</code>, and can be called without parentheses if no argument is needed.</li>
+<li><code>$get</code> allows to extract an attribute without checking its existence: if <code>params.url.guess</code> does not exists, we obtain <code>null</code>.</li>
+<li><code>$parse</code> allows to parse any JSON string. Here, it is used to cast a string into a number.</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-builtin">"input"</span>: {
             "guess": <span class="hljs-string">"&lt;((params.url | $get('guess') | $parse))&gt;"</span>
-        },
-        <span class="hljs-keyword">"if"</span>: <span class="hljs-string">"&lt;((io.guess != null))&gt;"</span>,
-        <span class="hljs-keyword">"then"</span>: {
-            <span class="hljs-keyword">"if"</span>: <span class="hljs-string">"&lt;((io.guess == io.secret))&gt;"</span>,
-            <span class="hljs-keyword">"then"</span>: {
+        },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Check if the <code>guess</code> parameter is set.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">"if"</span>: <span class="hljs-string">"&lt;((io.guess != null))&gt;"</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>If the <code>guess</code> parameter is set, check if the secret number has been found.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">"then"</span>: {
+            <span class="hljs-keyword">"if"</span>: <span class="hljs-string">"&lt;((io.guess == io.secret))&gt;"</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>If the secret number has been found, remove the <code>secret</code> cookie and send a congratulation message.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">"then"</span>: {
                 <span class="hljs-builtin">"trigger"</span>: {
                     "cookie": {"key": <span class="hljs-string">"secret"</span>, "age": <span class="hljs-number">0</span>}
                 },
                 "response": <span class="hljs-string">"Congratulations! The secret number was &lt;((io.secret))&gt;."</span>
-            },
-            <span class="hljs-keyword">"else"</span>: {
+            },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>If the secret number has not been found, set the <code>secret</code> cookie and send a JSON response containing an hint.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">"else"</span>: {
                 <span class="hljs-builtin">"trigger"</span>: {
                     "cookie": {"key": <span class="hljs-string">"secret"</span>, "value": <span class="hljs-string">"&lt;((io.secret))&gt;"</span>, "age": <span class="hljs-number">300000</span>}
                 },
@@ -91,8 +213,22 @@
                     }
                 }
             }
-        },
-        <span class="hljs-keyword">"else"</span>: {
+        },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>If the <code>guess</code> parameter is not set, send a usage message.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">"else"</span>: {
             "response": <span class="hljs-string">"Try to guess the secret number with ?guess={YOUR ATTEMPT}"</span>
         }
     }
