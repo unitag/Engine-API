@@ -1,0 +1,3 @@
+#!/usr/bin/env node
+require('highlight.js').registerLanguage('unitag-engine', require('./unitag-engine'));
+require('docco').run(process.argv.concat(['-L', require('path').join(__dirname, 'languages.json')]));

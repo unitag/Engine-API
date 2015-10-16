@@ -1,0 +1,42 @@
+{
+    // Defines the URL that will be used to access this operation.
+    "url": "{YOUR PATH HERE}",
+
+    // Mark this operation as published.
+    "state": "PUBLISHED",
+    "input": {
+        "continue": "<(('secret' in params.cookie))>",
+        "$then": {
+            "secret": "<((io.continue ? params.cookie.secret : $randomInt(0, 1000)))>"
+        }
+    },
+    "index": {
+        "input": {
+            "guess": "<((params.url | $get('guess') | $parse))>"
+        },
+        "if": "<((io.guess != null))>",
+        "then": {
+            "if": "<((io.guess == io.secret))>",
+            "then": {
+                "trigger": {
+                    "cookie": {"key": "secret", "age": 0}
+                },
+                "response": "Congratulations! The secret number was <((io.secret))>."
+            },
+            "else": {
+                "trigger": {
+                    "cookie": {"key": "secret", "value": "<((io.secret))>", "age": 300000}
+                },
+                "response": {
+                    "body": {
+                        "newGame": "<((!io.continue))>",
+                        "hint": "<(((io.guess > io.secret) ? 'LESS' : 'MORE'))>"
+                    }
+                }
+            }
+        },
+        "else": {
+            "response": "Try to guess the secret number with ?guess={YOUR ATTEMPT}"
+        }
+    }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "unitag-engine-examples",
+  "version": "0.1.0",
+  "description": "JSON examples for the Unitag Engine API",
+  "keywords": [
+    "unitag",
+    "engine",
+    "api",
+    "example",
+    "examples"
+  ],
+  "license": "ISC",
+  "author": "Cédric Connes <cedric.connes@gmail.com>",
+  "repository": "unitag/Engine-API",
+  "devDependencies": {
+    "docco": "^0.7.0",
+    "highlight.js": "^8.8.0"
+  },
+  "private": true
+}
