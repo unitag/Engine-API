@@ -11,7 +11,7 @@
     // This is needed to make it publicly available.
     "state": "PUBLISHED",
 
-    // Define the default entry point of this operations.
+    // Define the default entry point of this operation.
     // This is a simplified `redirect` step which triggers a redirection to Google.
     "index": "http://www.google.com"
 }

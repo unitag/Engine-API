@@ -1,0 +1,19 @@
+// # Hello example
+// This example illustrates how to use the [Unitag Engine API](http://unitag.github.io/Engine-API/api) to display a simple text.
+
+// The raw JSON document can be found [here](http://unitag.github.io/Engine-API/examples/hello.json).
+{
+    // Define the URL that will be used to access this operation.
+    // The resulting URL has the following form: `http://e.unitag.io/r/{YOUR PATH HERE}`.
+    "url": "{YOUR PATH HERE}",
+
+    // Mark this operation as published.
+    // This is needed to make it publicly available.
+    "state": "PUBLISHED",
+
+    // Define the default entry point of this operation.
+    // This is a simplified `response` step which sends a textual response.
+    "index": {
+        "response": "Hello World!"
+    }
+}

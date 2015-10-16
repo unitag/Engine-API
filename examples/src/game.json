@@ -37,7 +37,7 @@
         }
     },
 
-    // Define the default entry point of this operations.
+    // Define the default entry point of this operation.
     "index": {
         // Define a local input value, `guess`, which is computed using some more specificities of the expression language:
         //  * `params.url` exposes the _query string_ parameters.
