@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>game.json</title>
+  <title>Game example</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -13,12 +13,6 @@
     
     <ul class="sections">
         
-          <li id="title">
-              <div class="annotation">
-                  <h1>game.json</h1>
-              </div>
-          </li>
-        
         
         
         <li id="section-1">
@@ -27,10 +21,13 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <h1 id="game-example">Game example</h1>
+<p>This example illustrates how to use the <a href="http://unitag.github.io/Engine-API/api">Unitag Engine API</a> to create a tiny game.</p>
+<h2 id="goal">Goal</h2>
+<p>The player is invited to guess a secret number, which is initially chosen randomly and then stored in a cookie until the end of the game.
+Upon each attempt, the server indicates whether the secret number is higher or lower than the user’s guess.</p>
+
             </div>
-            
-            <div class="content"><div class='highlight'><pre>{</pre></div></div>
             
         </li>
         
@@ -41,11 +38,12 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Define the URL that will be used to access this operation.</p>
+              <h2 id="implementation">Implementation</h2>
+<p>The raw JSON document can be found <a href="http://unitag.github.io/Engine-API/examples/game.json">here</a>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    "url": <span class="hljs-string">"{YOUR PATH HERE}"</span>,</pre></div></div>
+            <div class="content"><div class='highlight'><pre>{</pre></div></div>
             
         </li>
         
@@ -56,11 +54,12 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>Mark this operation as published.</p>
+              <p>Define the URL that will be used to access this operation.
+The resulting URL has the following form: <code>http://e.unitag.io/r/{YOUR PATH HERE}</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    "state": <span class="hljs-string">"PUBLISHED"</span>,</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    "url": <span class="hljs-string">"{YOUR PATH HERE}"</span>,</pre></div></div>
             
         </li>
         
@@ -70,6 +69,22 @@
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Mark this operation as published.
+This is needed to make it publicly available.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    "state": <span class="hljs-string">"PUBLISHED"</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <p>Define the global input values:</p>
 <ol>
@@ -101,11 +116,11 @@ The expression language by itself is largely inspired by JavaScript expressions.
         </li>
         
         
-        <li id="section-5">
+        <li id="section-6">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
+                <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
               <p>Define the default entry point of this operations.</p>
 
@@ -116,16 +131,16 @@ The expression language by itself is largely inspired by JavaScript expressions.
         </li>
         
         
-        <li id="section-6">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>Define a local input value, <code>guess</code>, which is computed using some more specificities of the expression language:</p>
 <ul>
 <li><code>params.url</code> exposes the <em>query string</em> parameters.</li>
-<li>The <code>|</code> operator allows to chain functions by prepending the result of its left operand to the arguments of the right operand.
+<li>The <code>|</code> operator allows to chain functions by prepending the result of its left operand to the arguments of its right operand.
 For instance, this expression is equivalent to <code>$parse($get(params.url, &#39;guess&#39;))</code>.</li>
 <li>A function always starts by <code>$</code>, and can be called without parentheses if no argument is needed.</li>
 <li><code>$get</code> allows to extract an attribute without checking its existence: if <code>params.url.guess</code> does not exists, we obtain <code>null</code>.</li>
@@ -141,11 +156,11 @@ For instance, this expression is equivalent to <code>$parse($get(params.url, &#3
         </li>
         
         
-        <li id="section-7">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>Check if the <code>guess</code> parameter is set.</p>
 
@@ -156,11 +171,11 @@ For instance, this expression is equivalent to <code>$parse($get(params.url, &#3
         </li>
         
         
-        <li id="section-8">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>If the <code>guess</code> parameter is set, check if the secret number has been found.</p>
 
@@ -172,11 +187,11 @@ For instance, this expression is equivalent to <code>$parse($get(params.url, &#3
         </li>
         
         
-        <li id="section-9">
+        <li id="section-10">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
               <p>If the secret number has been found, remove the <code>secret</code> cookie and send a congratulation message.</p>
 
@@ -192,11 +207,11 @@ For instance, this expression is equivalent to <code>$parse($get(params.url, &#3
         </li>
         
         
-        <li id="section-10">
+        <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <p>If the secret number has not been found, set the <code>secret</code> cookie and send a JSON response containing an hint.</p>
 
@@ -218,11 +233,11 @@ For instance, this expression is equivalent to <code>$parse($get(params.url, &#3
         </li>
         
         
-        <li id="section-11">
+        <li id="section-12">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
+                <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
               <p>If the <code>guess</code> parameter is not set, send a usage message.</p>
 
@@ -233,6 +248,26 @@ For instance, this expression is equivalent to <code>$parse($get(params.url, &#3
         }
     }
 }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <h2 id="go-further">Go further</h2>
+<p>If you wish to experiment by yourself, you may consider adding the following features:</p>
+<ol>
+<li>Add another entry point which displays directly the secret number.</li>
+<li>Protect this entry point by an hardcoded password.</li>
+<li>Check the credentials against a CSV file (whitelist) instead the hardcoded password.</li>
+<li>Display a nicer GUI using U.me rendering.</li>
+</ol>
+
+            </div>
             
         </li>
         
