@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>Minimal example</title>
+  <title>Hello example</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -21,8 +21,8 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="minimal-example">Minimal example</h1>
-<p>This example illustrates how to use the <a href="http://unitag.github.io/Engine-API/api">Unitag Engine API</a> to create a simple redirection.</p>
+              <h1 id="hello-example">Hello example</h1>
+<p>This example illustrates how to use the <a href="http://unitag.github.io/Engine-API/api">Unitag Engine API</a> to display a simple text.</p>
 
             </div>
             
@@ -35,7 +35,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>The raw JSON document can be found <a href="http://unitag.github.io/Engine-API/examples/minimal.json">here</a>.</p>
+              <p>The raw JSON document can be found <a href="http://unitag.github.io/Engine-API/examples/hello.json">here</a>.</p>
 
             </div>
             
@@ -83,11 +83,13 @@ This is needed to make it publicly available.</p>
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <p>Define the default entry point of this operation.
-This is a simplified <code>redirect</code> step which triggers a redirection to Google.</p>
+This is a simplified <code>response</code> step which sends a textual response.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    "index": <span class="hljs-string">"http://www.google.com"</span>
+            <div class="content"><div class='highlight'><pre>    "index": {
+        "response": <span class="hljs-string">"Hello World!"</span>
+    }
 }</pre></div></div>
             
         </li>

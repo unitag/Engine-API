@@ -1,0 +1,7 @@
+{
+    "url": "{YOUR PATH HERE}",
+    "state": "PUBLISHED",
+    "index": {
+        "response": "Hello World!"
+    }
+}
