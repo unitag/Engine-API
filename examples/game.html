@@ -88,14 +88,14 @@ This is needed to make it publicly available.</p>
               </div>
               <p>Define the global input values:</p>
 <ol>
-<li><p>Load the <code>continues</code> value.
+<li><p>Load the <code>continue</code> value.
 The result is a boolean which indicates whether a cookie named <code>secret</code> has been sent by the user agent.</p>
 </li>
-<li><p>Once <code>continues</code> is loaded, use its value to compute the <code>secret</code> value.
+<li><p>Once <code>continue</code> is loaded, use its value to compute the <code>secret</code> value.
 The result is the secret number: either the previous one which is restored from the <code>secret</code> cookie, or a new one which is chosen randomly.</p>
 </li>
 </ol>
-<p>Both <code>continues</code> and <code>secret</code> are implicit <code>data</code> connectors. Their values are computed using an expression langage delimited by a <em>markup syntax</em>: <code>&lt;((...))&gt;</code>.
+<p>Both <code>continue</code> and <code>secret</code> are implicit <code>data</code> connectors. Their values are computed using an expression langage delimited by a <em>markup syntax</em>: <code>&lt;((...))&gt;</code>.
 The expression language by itself is largely inspired by JavaScript expressions.</p>
 <p>Here are the encountered specificities:</p>
 <ul>
