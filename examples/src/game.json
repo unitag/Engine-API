@@ -17,13 +17,13 @@
     "state": "PUBLISHED",
 
     // Define the global input values:
-    //  1. Load the `continues` value.
+    //  1. Load the `continue` value.
     //     The result is a boolean which indicates whether a cookie named `secret` has been sent by the user agent.
     //
-    //  2. Once `continues` is loaded, use its value to compute the `secret` value.
+    //  2. Once `continue` is loaded, use its value to compute the `secret` value.
     //     The result is the secret number: either the previous one which is restored from the `secret` cookie, or a new one which is chosen randomly.
     //
-    // Both `continues` and `secret` are implicit `data` connectors. Their values are computed using an expression langage delimited by a _markup syntax_: `<((...))>`.
+    // Both `continue` and `secret` are implicit `data` connectors. Their values are computed using an expression langage delimited by a _markup syntax_: `<((...))>`.
     // The expression language by itself is largely inspired by JavaScript expressions.
     //
     // Here are the encountered specificities:
