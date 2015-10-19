@@ -13,7 +13,7 @@ module.exports = function (hljs) {
 		contains: [KEY]
 	};
 	var STRING = {
-		begin: '"[^"]*"\\s*[^:]', end: '', returnBegin: true,
+		begin: '"[^"]*"\\s*($|[^:\\s])', end: '', returnBegin: true,
 		contains: [hljs.QUOTE_STRING_MODE]
 	};
 	return {
