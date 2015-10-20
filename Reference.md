@@ -62,12 +62,13 @@ The JSON strings can also contain a markup syntax like this: `<((env.connection.
 ## The `Operation` object
 
 An `Operation` is a standalone document describing an HTTP application. It is expressed as a JSON object, which allows to specify:
-  - how the application can be reached
-  - which routes are exposed
-  - which input data are needed
-  - how input data are processed
-  - which output data are produced
-  - which external actions are triggered
+
+- how the application can be reached
+- which routes are exposed
+- which input data are needed
+- how input data are processed
+- which output data are produced
+- which external actions are triggered
 
 The root object looks like the following:
 
@@ -134,8 +135,9 @@ Connector = DataConnector | CsvConnector | FileConnector |
 So, an input object is basically a map of connectors, where the key defines the name of the resulting value (accessible through `<((io.name))>` after evaluation), and the value defines how to produce the resulting value.
 
 The value can be either:
-  - a typed connector, which is expressed as an object containing a single `$`-prefixed key. The key denotes the connector's type, and its associated value defines the connector's parameters.
-  - a raw value, which is any value that does not match the format of typed connectors. It is directly used as the resulting value.
+
+- a typed connector, which is expressed as an object containing a single `$`-prefixed key. The key denotes the connector's type, and its associated value defines the connector's parameters.
+- a raw value, which is any value that does not match the format of typed connectors. It is directly used as the resulting value.
 
 The special `$then` field allows to define another set of connectors, which is evaluated only once all the other connectors are loaded. This can be used to load intermediate results, and then compute complex values based on them. See the [evaluation order](evaluation-order) for more details.
 
@@ -224,10 +226,11 @@ Field | Description | Markup
 `unit` | Defines the unit of the `duration` field. Can be `millisecond`, `second`, `minute`, `hour` or `day`. Default is `millisecond`. | Yes
 
 There are several ways for specifying the time period:
-  - When both `from` and `to` are specified, they define the exact bounds of the time period.
-  - When either `from` or `to` is specified, the time period is defined by that bound, and an eventual duration.
-  - When neither `from` nor `to` nor a duration is specified, the time period is unlimited.
-  - When only a duration is specified, a time period of this duration is automatically selected around the current time. This period is always a slice of the upper time unit. For example, if the duration is 10 minutes, each hour is splitted into 6 slices of 10 minutes. Then, the selected time period is the slice that contain the current time. If the upper unit is not dividable by the requested duration, an incomplete slice is produced. For example, a duration of 25 minutes splits each hour into 2 slices of 25 minutes and a slice of 10 minutes.
+
+- When both `from` and `to` are specified, they define the exact bounds of the time period.
+- When either `from` or `to` is specified, the time period is defined by that bound, and an eventual duration.
+- When neither `from` nor `to` nor a duration is specified, the time period is unlimited.
+- When only a duration is specified, a time period of this duration is automatically selected around the current time. This period is always a slice of the upper time unit. For example, if the duration is 10 minutes, each hour is splitted into 6 slices of 10 minutes. Then, the selected time period is the slice that contain the current time. If the upper unit is not dividable by the requested duration, an incomplete slice is produced. For example, a duration of 25 minutes splits each hour into 2 slices of 25 minutes and a slice of 10 minutes.
 
 ### The last visit connector
 
@@ -395,8 +398,9 @@ Field | Description | Markup
 The connectors defined in the same input object are implicitly evaluated in parallel. Thus, a connector cannot use a value produced by one of its siblings.
 
 However, there are two ways for controlling the evaluation order of connectors:
-  - An input object can define a special `$then` key. It allows to define another input object (or an array) which is processed only once all the connectors of the current object have been evaluated. The resulting values of these connectors can be injected in the `$then` field using the markup syntax.
-  - When an array of input objects is specified, its items are evaluated in parallel. When coupled with `$then`, this allows to define several independent evaluation chains.
+
+- An input object can define a special `$then` key. It allows to define another input object (or an array) which is processed only once all the connectors of the current object have been evaluated. The resulting values of these connectors can be injected in the `$then` field using the markup syntax.
+- When an array of input objects is specified, its items are evaluated in parallel. When coupled with `$then`, this allows to define several independent evaluation chains.
 
 As shown in the following example, these techniques can cohabit in order to define complex and/or deep dependency graphs. However, most use cases will involve implicit parallel definitions, which are easy to express and evaluated efficiently.
 
@@ -448,16 +452,17 @@ This declaration can mentally be represented as follows:
 ```
 
 Now, more verbosely, here is what would happen at evaluation time:
-  1. Two evaluation chains start in parallel (two items in the top-level array).
-    - The first chain follows the following steps:
-      1. Connectors `a` and `b` are evaluated in parallel.
-      2. When `a` and `b` have completed, two new evaluation chains start in parallel (two items in the `$then` field):
-        - The first chain simply evaluates the `c` connector.
-        - The second chain follows the following steps:
-          1. Connectors `d` and `e` are evaluated in parallel.
-          2. When `d` and `e` have completed, the `f` connector is evaluated.
-    - The second chain simply evaluates the `g` connector.
-  2. All connectors have properly been evaluated, and the resulting values can now been accessed using the markup syntax (`<((io.a))>` ... `<((io.g))>`).
+
+1. Two evaluation chains start in parallel (two items in the top-level array).
+  - The first chain follows the following steps:
+    1. Connectors `a` and `b` are evaluated in parallel.
+    2. When `a` and `b` have completed, two new evaluation chains start in parallel (two items in the `$then` field):
+      - The first chain simply evaluates the `c` connector.
+      - The second chain follows the following steps:
+        1. Connectors `d` and `e` are evaluated in parallel.
+        2. When `d` and `e` have completed, the `f` connector is evaluated.
+  - The second chain simply evaluates the `g` connector.
+2. All connectors have properly been evaluated, and the resulting values can now been accessed using the markup syntax (`<((io.a))>` ... `<((io.g))>`).
 
 This example just aims at providing an overview of ordering capabilities. It is voluntarily complex and does not reflect a particular use case (see below for [a more realistic example](#complete-example)). However, it illustrates well how evaluation chains can be powerful. For instance, if evaluating the `g` connector is particularly expensive, it will not block nor affect in any way the other evaluation chain. Both will progress concurrently, and will be waited transparently for processing the following tasks.
 
@@ -468,8 +473,9 @@ TODO
 ## The `Step` object
 
 A step is fundamentally a piece of logic. There are two kinds of step:
-  - A transitional step allow to take decisions by conditionally redirecting to another step.
-  - A terminal steps allows to generate an HTTP response, thus ending a chain of transitional steps.
+
+- A transitional step allow to take decisions by conditionally redirecting to another step.
+- A terminal steps allows to generate an HTTP response, thus ending a chain of transitional steps.
 
 Steps can be seen as statements in a standard programming language: transitional steps mimic control flow structures, while terminal steps mimic regular instructions (with potential side-effects).
 
