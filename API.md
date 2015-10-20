@@ -3,7 +3,7 @@ HOST: https://betapi.unitag.io
 
 # Unitag Engine API
 
-This document describes the HTTP interface for accessing the Unitag Engine API.
+This document describes the HTTP interface for accessing the Unitag Engine API. This API allows to easily create and manage data-driven scenarios, called _operations_.
 
 If you are displaying this page from [GitHub](https://github.com/unitag/Engine-API/blob/master/API.md), you are actually reading an [API Blueprint](http://apiblueprint.org/) specification. Although this format is readable as is, you may prefer switching to the [enhanced version](http://unitag.github.io/Engine-API/api).
 
