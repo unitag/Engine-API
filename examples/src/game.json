@@ -1,5 +1,5 @@
 // # Game example
-// This example illustrates how to use the [Unitag Engine API](http://unitag.github.io/Engine-API/api) to create a tiny game.
+// This example illustrates how to use the [Unitag Engine API](http://unitag.github.io/Engine-API/api) to create a tiny game (try it [here](http://e.unitag.io/r/game)).
 //
 // ## Goal
 // The player is invited to guess a secret number, which is initially chosen randomly and then stored in a cookie until the end of the game.

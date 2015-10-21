@@ -1,5 +1,5 @@
 // # Hello example
-// This example illustrates how to use the [Unitag Engine API](http://unitag.github.io/Engine-API/api) to display a simple text.
+// This example illustrates how to use the [Unitag Engine API](http://unitag.github.io/Engine-API/api) to display a simple text (try it [here](http://e.unitag.io/r/hello)).
 
 // The raw JSON document can be found [here](http://unitag.github.io/Engine-API/examples/hello.json).
 {

@@ -1,5 +1,5 @@
 // # Minimal example
-// This example illustrates how to use the [Unitag Engine API](http://unitag.github.io/Engine-API/api) to create a simple redirection.
+// This example illustrates how to use the [Unitag Engine API](http://unitag.github.io/Engine-API/api) to create a simple redirection (try it [here](http://e.unitag.io/r/minimal)).
 
 // The raw JSON document can be found [here](http://unitag.github.io/Engine-API/examples/minimal.json).
 {
