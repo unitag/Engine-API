@@ -55,9 +55,11 @@ This document describes in details the exchange format (or _language_) used by t
 
 ## Introduction
 
-The Unitag Engine API allows to easily create and manage data-driven scenarios, called _operations_. These scenarios are expressed using structured JSON documents, whom the format is detailed below.
+The Unitag Engine API allows to easily create and manage data-driven scenarios, called _operations_. These scenarios are expressed using structured JSON documents, whose format is detailed below.
 
-The JSON strings can also contain a markup syntax like this: `<((env.connection.ip))>`. This allows to embed a special expression language, which is largely inspired by JavaScript expressions, but with several useful specificities (see the [expression language](#the-expression-language) for more details). In the bellow documentation, the fields descriptions are often accompanied by a "Markup" column, which indicates whether a given field is allowed to embed some markup.
+As a lightweight and efficient serialization format, JSON is a perfect solution for describing complex structured documents like operations. Yet it does not suit well for describing common expressions such as interpreting variables or computing values.
+
+To fill this gap, the Unitag Engine is able to parse and evaluate a markup syntax within JSON strings, for instance: `<((env.connection.ip))>`. This allows to embed a special expression language, which is largely inspired by JavaScript expressions, but with several useful specificities (see the [expression language](#the-expression-language) for more details). In the bellow documentation, the fields descriptions are often accompanied by a "Markup" column, which indicates whether a given field is allowed to embed some markup.
 
 ## The `Operation` object
 
@@ -108,6 +110,7 @@ State | Description
 ### Examples
 
 The following minimal example, which creates a simple redirection to Google, can be considered as a starting point:
+
 ```json
 {
     "url": "{YOUR PATH HERE}",
