@@ -1,0 +1,24 @@
+{
+    "url": "{YOUR PATH HERE}",
+    "state": "PUBLISHED",
+    "index": {
+        "input": {
+            "foo": "This is the result of a fake connector"
+        },
+        "trigger": {
+            "data": {
+                "output": "bar",
+                "value": "This is the result of a fake action"
+            }
+        },
+        "response": {
+            "body": {
+                "env": "<((env))>",
+                "ctx": "<((ctx))>",
+                "params": "<((params))>",
+                "io": "<((io))>",
+                "out": "<((out))>"
+            }
+        }
+    }
+}
