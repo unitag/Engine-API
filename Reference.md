@@ -544,12 +544,19 @@ ResponseStep = BaseStep + {
 
 ### The U.me step
 
+An U.me step is a terminal step that allows to render an HTML page.
+
 ```javascript
 UmeStep = BaseStep + {
     "ume": Ume,
     "mode": String
 }
 ```
+
+Field | Description | Markup
+------|-------------|-------
+`ume` | Defines the structure of the rendered page. See the [U.me documentation](https://github.com/unitag/U.me) for more details. Note that a single-page U.me is expected. | Yes
+`mode` | Defines the rendering mode, which defaults to `components`. The `classic` mode may be used for backward compatibility.
 
 ### The `switch`/`cases`/`default` step
 
