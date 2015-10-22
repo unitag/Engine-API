@@ -1,0 +1,40 @@
+{
+    "url": "{YOUR PATH HERE}",
+    "state": "PUBLISHED",
+    "index": {
+        "ume": {
+            "type": "ume",
+            "blocks": {
+                "type": "static-page",
+                "blocks": [
+                    {
+                        "type": "bind-image",
+                        "data": {
+                            "src": "https://www.unitag.io/file/image/logo/Logo_AFC928_250.png"
+                        }
+                    },
+                    {
+                        "type": "static-text",
+                        "properties": {
+                            "element": "h1"
+                        },
+                        "data": {
+                            "text": "U.me scratchcard"
+                        }
+                    },
+                    {
+                        "type": "ume-scratch",
+                        "css": "{max-width: 600px}",
+                        "properties": {
+                            "threshold": 50
+                        },
+                        "blocks": {
+                            "type": "bind-map",
+                            "css": "{height: 300px}"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
