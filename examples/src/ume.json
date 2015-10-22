@@ -1,0 +1,57 @@
+// # U.me example
+// This example illustrates how to use the [Unitag Engine API](http://unitag.github.io/Engine-API/api) to render an HTML page (try it [here](http://e.unitag.io/r/ume)).
+
+// The raw JSON document can be found [here](http://unitag.github.io/Engine-API/examples/ume.json).
+{
+    // Define the URL that will be used to access this operation.
+    // The resulting URL has the following form: `http://e.unitag.io/r/{YOUR PATH HERE}`.
+    "url": "{YOUR PATH HERE}",
+
+    // Mark this operation as published.
+    // This is needed to make it publicly available.
+    "state": "PUBLISHED",
+
+    // Define the default entry point of this operation.
+    "index": {
+        // Render the following U.me and send the HTML result.
+        "ume": {
+            // Define the root U.me block, which contains a single page.
+            "type": "ume",
+            "blocks": {
+                "type": "static-page",
+                "blocks": [
+                    // Define a simple image.
+                    {
+                        "type": "bind-image",
+                        "data": {
+                            "src": "https://www.unitag.io/file/image/logo/Logo_AFC928_250.png"
+                        }
+                    },
+                    // Define a simple H1 title.
+                    {
+                        "type": "static-text",
+                        "properties": {
+                            "element": "h1"
+                        },
+                        "data": {
+                            "text": "U.me scratchcard"
+                        }
+                    },
+                    // Define a scratchcard containing a map.
+                    // The content is revealed when at least 50% of the area has been scratched.
+                    {
+                        "type": "ume-scratch",
+                        "css": "{max-width: 600px}",
+                        "properties": {
+                            "threshold": 50
+                        },
+                        "blocks": {
+                            "type": "bind-map",
+                            "css": "{height: 300px}"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
