@@ -523,7 +523,7 @@ Field | Description | Markup
 
 ### The vCard step
 
-A vCard step allows to...
+A vCard step is a terminal step that allows to send a vCard file.
 
 ```javascript
 VcardStep = BaseStep + {
@@ -531,7 +531,13 @@ VcardStep = BaseStep + {
 }
 ```
 
+Field | Description | Markup
+------|-------------|-------
+`vcard` | Defines the vCard content. See the [vCard object](#the-vcard-object) for more details. | Yes
+
 ### The response step
+
+A response step is a terminal step that allows to send an arbitrary textual or JSON response.
 
 ```javascript
 ResponseStep = BaseStep + {
@@ -541,6 +547,12 @@ ResponseStep = BaseStep + {
     }
 }
 ```
+
+Field | Description | Markup
+------|-------------|-------
+`response` | Defines the HTTP response. If a primitive type or an array is given, it is implicitly interpreted as the `body` field. | Yes, but interpreted as the `body` field
+`response.status` | Defines the HTTP status code. Defaults to 200 (OK). | No
+`response.body` | Defines the response data. A string is sent as a textual response (`text/plain`) while any other data type is sent as JSON (`application/json`). | Yes
 
 ### The U.me step
 
@@ -560,6 +572,8 @@ Field | Description | Markup
 
 ### The `switch`/`cases`/`default` step
 
+A `switch`/`cases`/`default` step is a transitional step that allows to...
+
 ```javascript
 SwitchStep = BaseStep + {
     "switch": Boolean | Number | String | Object,
@@ -569,6 +583,8 @@ SwitchStep = BaseStep + {
 ```
 
 ### The `if`/`then`/`else` step
+
+A `if`/`then`/`else` step is a transitional step that allows to...
 
 ```javascript
 IfStep = BaseStep + {
@@ -580,6 +596,8 @@ IfStep = BaseStep + {
 
 ### The `goto` step
 
+A `goto` step is a transitional step that allows to...
+
 ```javascript
 GotoStep = BaseStep + {
     "goto": String
@@ -587,6 +605,8 @@ GotoStep = BaseStep + {
 ```
 
 ### The `try`/`catch`/`then` step
+
+A `try`/`catch`/`then` step is a transitional step that allows to...
 
 ```javascript
 TryStep = BaseStep + {
