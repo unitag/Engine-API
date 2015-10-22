@@ -572,7 +572,7 @@ Field | Description | Markup
 
 ### The `switch`/`cases`/`default` step
 
-A `switch`/`cases`/`default` step is a transitional step that allows to...
+A `switch`/`cases`/`default` step is a transitional step that allows to test a given value against multiple conditions in order to select the following step.
 
 ```javascript
 SwitchStep = BaseStep + {
@@ -582,9 +582,15 @@ SwitchStep = BaseStep + {
 }
 ```
 
+Field | Description | Markup
+------|-------------|-------
+`switch` | Defines the value to be tested. | Yes
+`cases` | Defines the tests to be performed, along with their respective destination steps. In its canonical form, this field is expressed as an array of options. The _first_ encountered matching option (if any) triggers the evaluation of its destination step (see the [Option object](#the-option-object) for more details). In addition, a simpler alternative allows to express this field as a key-value map: if a key is _equal_ to the tested value, then its associated step is directly evaluated. | No
+`default` | Defines the default step, which is evaluated if no match is found in the `cases` field. | No
+
 ### The `if`/`then`/`else` step
 
-A `if`/`then`/`else` step is a transitional step that allows to...
+A `if`/`then`/`else` step is a transitional step that allows to perform a boolean test in order to select the following step. In fact, it is a simplified form of the `switch`/`cases`/`default` step.
 
 ```javascript
 IfStep = BaseStep + {
@@ -594,15 +600,25 @@ IfStep = BaseStep + {
 }
 ```
 
+Field | Description | Markup
+------|-------------|-------
+`if` | Defines the tested boolean. This value is likely to be obtained from a markup expression. | Yes
+`then` | Defines the step that is evaluated if the tested value is `true`. | No
+`else` | Defines the step that is evaluated if the tested value is not `true` (this includes non-boolean values). | No
+
 ### The `goto` step
 
-A `goto` step is a transitional step that allows to...
+A `goto` step is a transitional step that allows to unconditionnaly evaluate a specific step.
 
 ```javascript
 GotoStep = BaseStep + {
-    "goto": String
+    "goto": String | Step
 }
 ```
+
+Field | Description | Markup
+------|-------------|-------
+`goto` | Defines the step to be evaluated. When expressed as a string, it allows to _jump_ to the step that defines this specific `label`. This should be avoided, and reserved for situations where it is absolutely necessary. | No
 
 ### The `try`/`catch`/`then` step
 
