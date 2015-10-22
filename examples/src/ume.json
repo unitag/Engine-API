@@ -20,11 +20,11 @@
             "blocks": {
                 "type": "static-page",
                 "blocks": [
-                    // Define a simple image.
+                    // Define a simple random image.
                     {
                         "type": "bind-image",
                         "data": {
-                            "src": "https://www.unitag.io/file/image/logo/Logo_AFC928_250.png"
+                            "src": "http://lorempixel.com/1024/256/abstract/"
                         }
                     },
                     // Define a simple H1 title.
@@ -38,13 +38,8 @@
                         }
                     },
                     // Define a scratchcard containing a map.
-                    // The content is revealed when at least 50% of the area has been scratched.
                     {
                         "type": "ume-scratch",
-                        "css": "{max-width: 600px}",
-                        "properties": {
-                            "threshold": 50
-                        },
                         "blocks": {
                             "type": "bind-map",
                             "css": "{height: 300px}"
