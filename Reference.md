@@ -556,7 +556,7 @@ UmeStep = BaseStep + {
 Field | Description | Markup
 ------|-------------|-------
 `ume` | Defines the structure of the rendered page. See the [U.me documentation](https://github.com/unitag/U.me) for more details. Note that a single-page U.me is expected. | Yes
-`mode` | Defines the rendering mode, which defaults to `components`. The `classic` mode may be used for backward compatibility.
+`mode` | Defines the rendering mode, which defaults to `components`. The `classic` mode may be used for backward compatibility. | No
 
 ### The `switch`/`cases`/`default` step
 
