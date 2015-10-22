@@ -10,7 +10,7 @@
                     {
                         "type": "bind-image",
                         "data": {
-                            "src": "https://www.unitag.io/file/image/logo/Logo_AFC928_250.png"
+                            "src": "http://lorempixel.com/1024/256/abstract/"
                         }
                     },
                     {
@@ -24,10 +24,6 @@
                     },
                     {
                         "type": "ume-scratch",
-                        "css": "{max-width: 600px}",
-                        "properties": {
-                            "threshold": 50
-                        },
                         "blocks": {
                             "type": "bind-map",
                             "css": "{height: 300px}"
