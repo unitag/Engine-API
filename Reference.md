@@ -679,9 +679,11 @@ Field | Description | Markup
 
 ```javascript
 BaseAction = {
-    "output": String,
+    "enabled": Boolean,
     "logged": Boolean,
-    "waited": Boolean
+    "waited": Boolean,
+
+    "output": String
 }
 ```
 
