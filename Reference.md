@@ -648,6 +648,8 @@ Test = {
 
 ## The `Actions` object
 
+An `Actions` object allows to define a set of actions that are triggered upon step evaluation.
+
 ```javascript
 Actions = {
     "enabled": Boolean,
@@ -661,6 +663,17 @@ Actions = {
     "upload": UploadAction | [UploadAction]
 }
 ```
+
+Field | Description | Markup
+------|-------------|-------
+`enabled` | Defines whether this actions are enabled. Can be overridden on a per action basis, and defaults to `true`. | Yes
+`logged` | Defines whether this actions are expected to be logged in the database. Can be overridden on a per action basis. The default value depends on the action type. Some action types may also force this flag to a fixed value. | Yes
+`waited` | Defines whether this actions are expected to be waited before evaluating the rest of the step. Can be overridden on a per action basis. The default value depends on the action type. Some action types may also force this flag to a fixed value. | Yes
+`data` | Defines the data action(s), if any. | No
+`email` | Defines the email action(s), if any. | No
+`sms` | Defines the SMS action(s), if any. | No
+`cookie` | Defines the cookie action(s), if any. | No
+`upload` | Defines the upload action(s), if any. | No
 
 ### Base fields of actions
 
