@@ -666,9 +666,9 @@ Actions = {
 
 Field | Description | Markup
 ------|-------------|-------
-`enabled` | Defines whether this actions are enabled. Can be overridden on a per action basis, and defaults to `true`. | Yes
-`logged` | Defines whether this actions are expected to be logged in the database. Can be overridden on a per action basis. The default value depends on the action type. Some action types may also force this flag to a fixed value. | Yes
-`waited` | Defines whether this actions are expected to be waited before evaluating the rest of the step. Can be overridden on a per action basis. The default value depends on the action type. Some action types may also force this flag to a fixed value. | Yes
+`enabled` | Defines whether these actions are enabled. Can be overridden on a per action basis, and defaults to `true`. | Yes
+`logged` | Defines whether these actions are expected to be logged in the database. Can be overridden on a per action basis. The default value depends on the action type. Some action types may also force this flag to a fixed value. | Yes
+`waited` | Defines whether these actions are expected to be waited before evaluating the rest of the step. Can be overridden on a per action basis. The default value depends on the action type. Some action types may also force this flag to a fixed value. | Yes
 `data` | Defines the data action(s), if any. | No
 `email` | Defines the email action(s), if any. | No
 `sms` | Defines the SMS action(s), if any. | No
@@ -676,6 +676,8 @@ Field | Description | Markup
 `upload` | Defines the upload action(s), if any. | No
 
 ### Base fields of actions
+
+An action generally looks like the following:
 
 ```javascript
 BaseAction = {
@@ -687,7 +689,23 @@ BaseAction = {
 }
 ```
 
+Field | Description | Markup
+------|-------------|-------
+`enabled` | Defines whether this action is enabled. Defaults to the common `enabled` flag (from the [Actions object](#the-actions-object)). | Yes
+`logged` | Defines whether this action is expected to be logged in the database. Defaults to the common `logged` flag (from the [Actions object](#the-actions-object)). Some action types may also force this flag to a fixed value. | Yes
+`waited` | Defines whether this action is expected to be waited before evaluating the rest of the step. Defaults to the common `waited` flag (from the [Actions object](#the-actions-object)). Some action types may also force this flag to a fixed value. | Yes
+`output` | Defines the output name of this action. This makes the action result accessible like this: `<((out.{OUTPUT_NAME}))>`. It may also be useful for selecting actions by their name in the action log connectors (using the `actionName` field). | No
+
 ### The data action
+
+A data action allows to record some arbitrary data. No external action is actually performed. However, along with the `output` field, this can be useful in the following situations:
+- Thanks to the `output` field, it is possible to assign – and even reassign – an arbitrary value to a custom variable within the `<((out))>` object.
+- By enabling the `logged` flag, it is possible to permanently store some arbitrary data, in order to process them later using the action log connectors.
+
+Flag | Behavior
+-----|---------
+`logged` | Defaults to `false`
+`waited` | Defaults to `true`
 
 ```javascript
 DataAction = BaseAction + {
@@ -695,7 +713,18 @@ DataAction = BaseAction + {
 }
 ```
 
+Field | Description | Markup
+------|-------------|-------
+`value` | Defines the arbitrary value produced by this action. | Yes
+
 ### The email action
+
+An email action allows to send a custom email.
+
+Flag | Behavior
+-----|---------
+`logged` | Forced to `true`
+`waited` | Defaults to `false`
 
 ```javascript
 EmailAction = BaseAction + {
@@ -726,6 +755,13 @@ TextAttachement = String | {
 
 ### The SMS action
 
+An SMS action allows to send a custom text message.
+
+Flag | Behavior
+-----|---------
+`logged` | Forced to `true`
+`waited` | Defaults to `false`
+
 ```javascript
 SmsAction = BaseAction + {
     "destination": String,
@@ -734,6 +770,13 @@ SmsAction = BaseAction + {
 ```
 
 ### The cookie action
+
+An cookie action allows to set a custom HTTP cookie.
+
+Flag | Behavior
+-----|---------
+`logged` | Defaults to `false`
+`waited` | Forced to `true`
 
 ```javascript
 CookieAction = BaseAction + {
@@ -744,6 +787,13 @@ CookieAction = BaseAction + {
 ```
 
 ### The upload action
+
+An upload action allows to permanently store a file.
+
+Flag | Behavior
+-----|---------
+`logged` | Defaults to `true`
+`waited` | Defaults to `false`
 
 ```javascript
 UploadAction = BaseAction + {
